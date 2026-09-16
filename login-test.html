@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Test Login 3 Peran — Aksara (sementara)</title>
+<style>
+  body { font-family: monospace; background: #0d1f38; color: #d4af37; padding: 24px; }
+  h1 { font-size: 1.1rem; }
+  .row { margin: 8px 0; }
+  input { padding: 8px; width: 320px; background: #102B4E; color: #fff; border: 1px solid #d4af37; }
+  button { padding: 8px 16px; background: #d4af37; border: none; font-weight: bold; cursor: pointer; }
+  pre { background: #102B4E; padding: 12px; white-space: pre-wrap; border: 1px solid #d4af37; min-height: 200px; }
+  .ok { color: #7CFC98; } .err { color: #FF8A80; }
+</style>
+</head>
+<body>
+<h1>🔐 Test Login 3 Peran — halaman sementara (origin = aksaralearningcenter.github.io)</h1>
+<p>Isi username &amp; password dari sheet <b>Kredensi Contoh</b>, klik tes per role. Origin halaman ini sama dengan halaman admin, jadi hasilnya identik.</p>
+
+<div class="row"><label>Username: </label><input id="u" placeholder="username dari Kredensi Contoh"></div>
+<div class="row"><label>Password: </label><input id="p" type="password" placeholder="password"></div>
+<div class="row"><button onclick="tes()">🧪 Tes Login Peran Ini</button></div>
+<pre id="out">Menunggu aksi…</pre>
+
+<script>
+const U = 'https://script.google.com/macros/s/AKfycbxjwUMcd0jj45u8Bl0qWS5dQC62WRWLUCcnJZSostMnoZRd1Sg8XlwD6etd5zF5s3-aKA/exec';
+const $ = id => document.getElementById(id);
+const log = (s, cls) => { const p = $('out'); p.innerHTML += '\n' + (cls ? '<span class="' + cls + '">' + s + '</span>' : s); };
+
+async function post(endpoint, body) {
+  const r = await fetch(U + '?api=' + endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+async function tes() {
+  $('out').textContent = 'origin: ' + location.origin + '\n— menguji…';
+  const login = $('u').value.trim(), password = $('p').value;
+  if (!login || !password) { log('⚠ Isi username & password dulu.', 'err'); return; }
+  try {
+    const res = await post('login', { login, password });
+    if (!res.success || !res.token) { log('❌ LOGIN GAGAL: ' + (res.message || JSON.stringify(res)), 'err'); return; }
+    log('✅ LOGIN OK — peran: ' + res.peran + ', nama: ' + (res.nama || '-') + ', token: ' + res.token.slice(0, 12) + '…', 'ok');
+
+    const me = await post('me', { token: res.token });
+    log('✅ SESI (me): ' + JSON.stringify({ email: me.email, peran: me.peran, nama: me.nama }), 'ok');
+
+    const dash = await post('call', { token: res.token, fn: 'getDashboardData', args: [] });
+    log((dash.success !== false ? '✅' : 'ℹ️') + ' DASHBOARD: ' + (dash.success !== false
+      ? 'data dimuat (stats murid=' + (dash.stats ? dash.stats.totalStudents : '?') + (dash.children ? ', mode orang tua (' + dash.children.length + ' anak)' : '') + ')'
+      : dash.message), dash.success !== false ? 'ok' : '');
+
+    if (res.peran === 'Orang Tua') {
+      const ch = await post('call', { token: res.token, fn: 'getMyChildrenData', args: [] });
+      log((ch.success ? '✅' : '❌') + ' DATA ANAK: ' + (ch.success ? ch.children.length + ' anak tertaut' : ch.message), ch.success ? 'ok' : 'err');
+    } else {
+      const st = await post('call', { token: res.token, fn: 'getStudents', args: [] });
+      log((st.success !== false ? '✅' : '❌') + ' MURID: ' + (st.success !== false ? (Array.isArray(st) ? st.length : (st.data || []).length) + ' murid' : st.message), 'err');
+      const us = await post('call', { token: res.token, fn: 'getUsers', args: [] });
+      if (res.peran === 'Admin') {
+        log((us.success !== false ? '✅' : '❌') + ' USERS (khusus Admin): ' + (us.success !== false ? (Array.isArray(us) ? us.length : (us.data || []).length) + ' akun' : us.message), us.success !== false ? 'ok' : 'err');
+      } else {
+        log('ℹ️ USERS diharapkan DITOLAK utk Guru: ' + (us.success === false ? 'ditolak ✓ (' + us.message + ')' : 'justru dilayani — cek gate!'), us.success === false ? 'ok' : 'err');
+      }
+    }
+    log('\n=== TES PERAN INI SELESAI ===', 'ok');
+    await post('logout', { token: res.token });
+  } catch (e) {
+    log('❌ ERROR: ' + e.message, 'err');
+  }
+}
+</script>
+</body>
+</html>
