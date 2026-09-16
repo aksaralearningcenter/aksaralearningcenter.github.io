@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aksara Learning Center | Dari Dasar hingga Akademik</title>
+  <meta name="description" content="Menemani setiap langkah dalam perjalanan belajar. Layanan bimbingan belajar untuk TK, SD, SMP, SMA, hingga Mahasiswa (Skripsi & Karya Ilmiah).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --navy: #102B4E;
+      --navy-light: #1A4073;
+      --gold: #B8934A;
+      --gold-light: #D4AF37;
+      --cream: #F8F6F0;
+      --text: #4A5568;
+      --border: #EAE5D9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { color: var(--navy); font-family: 'Playfair Display', Georgia, serif; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    .pattern {
+      background-image: radial-gradient(#B8934A 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.08;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #102B4E 0%, #1A4073 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      padding: 16px 0;
+      transition: all 0.3s ease;
+    }
+    .nav.scrolled {
+      background: rgba(248, 246, 240, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(234, 229, 217, 0.6);
+      padding: 10px 0;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1; }
+    .logo-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.12em;
+      color: var(--navy);
+    }
+    .logo-sub {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .nav-link:hover { color: var(--gold); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: all 0.25s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn[disabled] { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+    .btn-navy {
+      background: var(--navy);
+      color: white;
+      box-shadow: 0 10px 25px -8px rgba(16, 43, 78, 0.5);
+      border-bottom: 4px solid var(--navy-light);
+    }
+    .btn-navy:hover { background: var(--navy-light); }
+    .btn-navy:active { transform: translateY(1px); border-bottom-width: 0; }
+    .btn-outline { background: white; color: var(--navy); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-gold {
+      background: var(--gold);
+      color: white;
+      box-shadow: 0 15px 35px -10px rgba(184, 147, 74, 0.6);
+    }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-sm { padding: 10px 20px; font-size: 0.75rem; }
+
+    .burger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--navy);
+      cursor: pointer;
+      padding: 6px;
+    }
+    .mobile-menu {
+      display: none;
+      background: white;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 20px 40px -20px rgba(16, 43, 78, 0.2);
+      padding: 24px 20px;
+      margin-top: 12px;
+    }
+    .mobile-menu.open { display: flex; flex-direction: column; gap: 20px; }
+    .mobile-menu .nav-link { display: block; text-align: left; font-size: 0.85rem; }
+
+    /* ---------- HERO ---------- */
+    .hero { position: relative; padding: 70px 0 90px; overflow: hidden; }
+    .hero-shape {
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%; height: 100%;
+      background: var(--border);
+      opacity: 0.35;
+      border-bottom-left-radius: 100px;
+      z-index: 0;
+    }
+    .hero .pattern { position: absolute; inset: 0; }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px -5px rgba(16, 43, 78, 0.08);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+    .badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-sub { font-size: 1.05rem; line-height: 1.8; margin-bottom: 32px; max-width: 520px; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .quote { margin-top: 44px; padding-left: 22px; border-left: 3px solid var(--gold); }
+    .quote p { font-family: 'Playfair Display', serif; font-style: italic; color: var(--navy); font-size: 1.1rem; }
+    .quote span {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text);
+    }
+
+    .hero-visual { position: relative; }
+    .hero-photo {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px -20px rgba(16, 43, 78, 0.35);
+      height: 520px;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(16, 43, 78, 0.12);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .float-card {
+      position: absolute;
+      bottom: -24px; left: -24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: white;
+      padding: 20px 24px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 50px -15px rgba(16, 43, 78, 0.25);
+      animation: bounce 3s infinite;
+    }
+    .float-card .fc-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .float-card h4 { font-size: 1.05rem; margin-bottom: 2px; }
+    .float-card p { font-size: 0.8rem; color: var(--text); }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* ---------- SECTION ---------- */
+    .section { padding: 90px 0; position: relative; }
+    .section-head { text-align: center; max-width: 680px; margin: 0 auto 60px; }
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: '';
+      width: 36px; height: 1px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .section-head h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 700; line-height: 1.25; }
+
+    /* ---------- ABOUT ---------- */
+    .about { background: white; }
+    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+    .about-item { text-align: center; }
+    .about-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 22px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      color: var(--navy);
+      box-shadow: 0 4px 20px -8px rgba(16, 43, 78, 0.12);
+      transition: transform 0.3s ease;
+    }
+    .about-item:hover .about-icon { transform: rotate(8deg); }
+    .about-item:nth-child(2):hover .about-icon { transform: rotate(-8deg); }
+    .about-item h3 { font-size: 1.3rem; margin-bottom: 12px; }
+    .about-item p { font-size: 0.9rem; line-height: 1.7; }
+
+    /* ---------- SERVICES ---------- */
+    .services::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 120px; height: 4px;
+      background: var(--gold);
+    }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-bottom: 28px; }
+    .services-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; max-width: 720px; margin: 0 auto; }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 34px 30px;
+      box-shadow: 0 4px 40px -2px rgba(16, 43, 78, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(16, 43, 78, 0.12); }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 76px; height: 76px;
+      background: var(--cream);
+      border-bottom-left-radius: 100%;
+      opacity: 0.6;
+      transition: transform 0.5s ease;
+    }
+    .card:hover::after { transform: scale(1.6); }
+    .card-body { position: relative; z-index: 1; }
+    .card-icon {
+      width: 62px; height: 62px;
+      border-radius: 14px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 22px;
+      transition: all 0.35s ease;
+    }
+    .card:hover .card-icon { background: var(--navy); color: var(--gold-light); transform: scale(1.1); }
+    .card-tag {
+      display: inline-block;
+      padding: 5px 12px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      background: #E8F0F9;
+      color: #1A4073;
+    }
+    .card-tag.alt { background: #F9F0E8; color: #9A7334; }
+    .card-tag.green { background: #E8F9F0; color: #2F6B4C; }
+    .card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+    .card p { font-size: 0.9rem; line-height: 1.7; margin-bottom: 22px; }
+    .card ul { list-style: none; margin-bottom: 22px; }
+    .card li { font-size: 0.9rem; font-weight: 500; padding: 5px 0; display: flex; align-items: center; gap: 10px; }
+    .card li i { color: var(--gold); font-size: 0.8rem; }
+    .card-link {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+    .card-link:hover { color: var(--navy); }
+
+    /* ---------- FORM PENDAFTARAN ---------- */
+    .reg-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; }
+    .reg-info { padding-right: 10px; }
+    .reg-info h3 { font-size: 1.4rem; margin-bottom: 14px; }
+    .reg-info p { font-size: 0.92rem; line-height: 1.7; margin-bottom: 24px; }
+    .reg-steps { list-style: none; }
+    .reg-steps li { display: flex; gap: 14px; align-items: flex-start; padding: 10px 0; font-size: 0.9rem; }
+    .reg-steps .step-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .reg-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 34px 30px;
+      box-shadow: 0 4px 40px -2px rgba(16, 43, 78, 0.05);
+    }
+    .reg-card h3 { font-size: 1.3rem; margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+    .form-group label .req { color: #d93025; }
+    .input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      color: #2D3748;
+      background: #FDFCF9;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184, 147, 74, 0.15); }
+    textarea.input { resize: vertical; min-height: 80px; }
+    select.input { cursor: pointer; }
+    .form-msg {
+      display: none;
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .form-msg.error { display: block; background: #FDECEA; color: #B3261E; border: 1px solid #F5C6C1; }
+    .form-msg.success { display: block; background: #E8F5E9; color: #1E6B3C; border: 1px solid #BFE3C8; }
+    .btn-block { width: 100%; padding: 15px; font-size: 0.88rem; }
+
+    /* ---------- CTA ---------- */
+    .cta {
+      position: relative;
+      background: var(--navy);
+      padding: 100px 0;
+      overflow: hidden;
+      text-align: center;
+    }
+    .cta-blob {
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.2;
+      mix-blend-mode: multiply;
+    }
+    .cta-blob.b1 { top: -140px; right: -140px; background: var(--gold); }
+    .cta-blob.b2 { bottom: -140px; left: -140px; background: #4A90D9; }
+    .cta-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 20px; }
+    .cta h2 { color: white; font-style: italic; font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: 24px; }
+    .cta p { color: #BFD3EA; font-size: 1.05rem; font-weight: 300; line-height: 1.7; margin-bottom: 40px; }
+    .contact-badges { margin-top: 56px; display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
+    .contact-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      transition: background 0.2s ease;
+    }
+    .contact-badge:hover { background: rgba(255,255,255,0.2); }
+    .contact-badge i { color: var(--gold-light); font-size: 1.1rem; }
+
+    /* ---------- FOOTER ---------- */
+    .footer { background: white; border-top: 1px solid var(--border); padding: 70px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 44px; margin-bottom: 48px; }
+    .footer-desc { font-size: 0.88rem; line-height: 1.7; margin: 18px 0 24px; }
+    .footer h4 { font-size: 1.1rem; margin-bottom: 22px; }
+    .footer ul { list-style: none; }
+    .footer li { margin-bottom: 12px; font-size: 0.88rem; }
+    .footer li a, .footer li span { color: var(--text); transition: color 0.2s ease; }
+    .footer li a:hover { color: var(--gold); }
+    .footer-contact li { display: flex; gap: 12px; align-items: flex-start; }
+    .footer-contact i { color: var(--gold); margin-top: 4px; font-size: 0.85rem; }
+    .socials { display: flex; gap: 14px; }
+    .social {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      transition: all 0.25s ease;
+    }
+    .social:hover { background: var(--navy); color: white; }
+    .copyright {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      text-align: center;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    /* ---------- REVEAL ---------- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { height: 380px; }
+      .float-card { left: 12px; }
+      .nav-links { display: none; }
+      .burger { display: block; }
+      .reg-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-grid2 { grid-template-columns: 1fr; max-width: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .hero { padding: 44px 0 70px; }
+      .section { padding: 64px 0; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .cta { padding: 72px 0; }
+      .form-row { grid-template-columns: 1fr; }
+      .reg-card { padding: 26px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ---------- NAVBAR ---------- -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="logo" href="#home">
+          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z" fill="#102B4E"/>
+            <path d="M25 68 Q 38 60 50 68 Q 62 60 75 68 L 80 73 Q 62 65 50 75 Q 38 65 20 73 Z" fill="#1A4073"/>
+            <path d="M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z" fill="#102B4E"/>
+            <path d="M35 45 Q 50 25 65 50 Q 55 40 45 45 Z" fill="#B8934A"/>
+            <path d="M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z" fill="#B8934A"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-title">AKSARA</span>
+            <span class="logo-sub">Learning Center</span>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <button class="nav-link" onclick="scrollTo_('home')">Beranda</button>
+          <button class="nav-link" onclick="scrollTo_('about')">Tentang Kami</button>
+          <button class="nav-link" onclick="scrollTo_('services')">Layanan</button>
+          <button class="nav-link" onclick="scrollTo_('daftar')">Daftar</button>
+          <a class="btn btn-navy btn-sm" href="APPS_SCRIPT_WEBAPP_URL" target="_blank" rel="noopener">Masuk Sistem</a>
+        </div>
+
+        <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+          <i class="fa-solid fa-bars" id="burger-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <button class="nav-link" onclick="toggleMenu(); scrollTo_('home')">Beranda</button>
+      <button class="nav-link" onclick="toggleMenu(); scrollTo_('about')">Tentang Kami</button>
+      <button class="nav-link" onclick="toggleMenu(); scrollTo_('services')">Layanan</button>
+      <button class="nav-link" onclick="toggleMenu(); scrollTo_('daftar')">Daftar</button>
+      <a class="btn btn-navy" href="APPS_SCRIPT_WEBAPP_URL" target="_blank" rel="noopener">Masuk Sistem</a>
+    </div>
+  </nav>
+
+  <!-- ---------- HERO ---------- -->
+  <section class="hero" id="home">
+    <div class="hero-shape"></div>
+    <div class="pattern"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="reveal">
+          <div class="badge"><span class="dot"></span> Pusat Pembelajaran & Akademik</div>
+          <h1>Dari Dasar <br><span class="gradient-text" style="font-style:italic;">hingga Akademik.</span></h1>
+          <p class="hero-sub">Menemani setiap langkah dalam perjalanan belajar Anda. Mulai dari baca tulis anak,
+            pendampingan sekolah, hingga bimbingan tugas akhir mahasiswa.</p>
+          <div class="hero-ctas">
+            <button class="btn btn-navy" onclick="scrollTo_('services')">Lihat Layanan</button>
+            <a class="btn btn-outline" href="https://wa.me/6281280169806" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i> Hubungi Kami
+            </a>
+          </div>
+          <div class="quote">
+            <p>"Ilmu Hari Ini, Masa Depan Esok."</p>
+            <span>Belajar &bull; Tumbuh &bull; Berkarya</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-photo">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" alt="Suasana belajar di Aksara Learning Center">
+          </div>
+          <div class="float-card">
+            <div class="fc-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+              <h4>Tutor Ahli</h4>
+              <p>Berpengalaman & Profesional</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- TENTANG ---------- -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Mengapa Aksara?</div>
+        <h2>Lebih dari sekadar tempat belajar, kami adalah mitra kesuksesan Anda.</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-item reveal">
+          <div class="about-icon"><i class="fa-solid fa-book-open"></i></div>
+          <h3>Kurikulum Adaptif</h3>
+          <p>Materi pembelajaran disesuaikan dengan kebutuhan dan gaya belajar masing-masing siswa untuk hasil optimal.</p>
+        </div>
+        <div class="about-item reveal">
+          <div class="about-icon"><i class="fa-solid fa-users"></i></div>
+          <h3>Pendampingan Personal</h3>
+          <p>Fokus pada pendekatan 1-on-1 atau kelompok kecil agar perkembangan siswa terpantau dengan jelas.</p>
+        </div>
+        <div class="about-item reveal">
+          <div class="about-icon"><i class="fa-solid fa-award"></i></div>
+          <h3>Kualitas Terjamin</h3>
+          <p>Terbukti membantu ratusan siswa mencapai target akademik mereka dari jenjang dasar hingga kelulusan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- LAYANAN ---------- -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Layanan Kami</div>
+        <h2>Program Pendidikan Komprehensif</h2>
+      </div>
+
+      <div class="services-grid">
+        <div class="card reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="fa-solid fa-child-reaching"></i></div>
+            <span class="card-tag">TK - SD</span>
+            <h3>Aksara Kids</h3>
+            <p>Program khusus usia dini. Fokus pada Calistung (Membaca, Menulis, Berhitung) dan pendampingan belajar dasar dengan metode menyenangkan.</p>
+            <a class="card-link" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Kids" target="_blank" rel="noopener">Info Detail <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+            <span class="card-tag alt">SD - SMA</span>
+            <h3>Aksara School</h3>
+            <p>Bimbingan belajar intensif untuk berbagai mata pelajaran sekolah. Membantu siswa memahami materi dan persiapan ujian.</p>
+            <a class="card-link" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20School" target="_blank" rel="noopener">Info Detail <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="card-tag green">Mahasiswa</span>
+            <h3>Aksara Academic</h3>
+            <p>Pendampingan akademik menyeluruh untuk mahasiswa. Diskusi materi kuliah dan bimbingan tugas perkuliahan harian.</p>
+            <a class="card-link" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Academic" target="_blank" rel="noopener">Info Detail <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-grid2">
+        <div class="card reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+            <h3>Aksara Writing</h3>
+            <ul>
+              <li><i class="fa-solid fa-check"></i> Bimbingan Makalah</li>
+              <li><i class="fa-solid fa-check"></i> Penulisan Artikel</li>
+              <li><i class="fa-solid fa-check"></i> Karya Ilmiah & Jurnal</li>
+            </ul>
+            <a class="card-link" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Writing" target="_blank" rel="noopener">Info Detail <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="fa-solid fa-scroll"></i></div>
+            <h3>Aksara Final Project</h3>
+            <ul>
+              <li><i class="fa-solid fa-check"></i> Bimbingan Skripsi</li>
+              <li><i class="fa-solid fa-check"></i> Bimbingan Tesis / Tugas Akhir</li>
+              <li><i class="fa-solid fa-check"></i> Konsultasi Metodologi & Analisis Data</li>
+            </ul>
+            <a class="card-link" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Final%20Project" target="_blank" rel="noopener">Info Detail <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- PENDAFTARAN ---------- -->
+  <section class="section about" id="daftar">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Pendaftaran</div>
+        <h2>Daftarkan Putra-Putri Anda</h2>
+      </div>
+      <div class="reg-grid">
+        <div class="reg-info reveal">
+          <h3>Prosesnya Mudah, 3 Langkah</h3>
+          <p>Isi form pendaftaran di samping, tim kami akan menghubungi Anda untuk jadwal kelas coba & penempatan kelas yang sesuai.</p>
+          <ul class="reg-steps">
+            <li><span class="step-num">1</span><span>Isi form pendaftaran online</span></li>
+            <li><span class="step-num">2</span><span>Tim kami konfirmasi via email (1x24 jam)</span></li>
+            <li><span class="step-num">3</span><span>Kelas coba & aktivasi rekening tabungan belajar</span></li>
+          </ul>
+        </div>
+        <div class="reg-card reveal">
+          <h3>📝 Form Pendaftaran Murid Baru</h3>
+          <div class="form-msg" id="reg-msg"></div>
+          <form id="reg-form" onsubmit="submitRegistration(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Calon Murid <span class="req">*</span></label>
+                <input class="input" type="text" id="reg-nama" required maxlength="60" placeholder="Nama lengkap anak">
+              </div>
+              <div class="form-group">
+                <label>Tanggal Lahir</label>
+                <input class="input" type="date" id="reg-lahir">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Program <span class="req">*</span></label>
+                <select class="input" id="reg-program" required>
+                  <option value="">-- Pilih Program --</option>
+                  <option value="Aksara Kids (TK-SD)">Aksara Kids (TK-SD)</option>
+                  <option value="Aksara School (SD-SMA)">Aksara School (SD-SMA)</option>
+                  <option value="Aksara Academic (Mahasiswa)">Aksara Academic (Mahasiswa)</option>
+                  <option value="Aksara Writing">Aksara Writing</option>
+                  <option value="Aksara Final Project">Aksara Final Project</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Nama Orang Tua</label>
+                <input class="input" type="text" id="reg-ortu" maxlength="60" placeholder="Nama ayah/ibu">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>No HP / WhatsApp <span class="req">*</span></label>
+                <input class="input" type="tel" id="reg-hp" required maxlength="16" placeholder="08xxxxxxxxxx">
+              </div>
+              <div class="form-group">
+                <label>Email <span class="req">*</span></label>
+                <input class="input" type="email" id="reg-email" required placeholder="email@contoh.com">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Catatan (opsional)</label>
+              <textarea class="input" id="reg-catatan" placeholder="Contoh: ingin kelas coba hari Sabtu"></textarea>
+            </div>
+            <button type="submit" class="btn btn-navy btn-block" id="reg-btn">📨 Kirim Pendaftaran</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- CTA ---------- -->
+  <section class="cta">
+    <div class="cta-blob b1"></div>
+    <div class="cta-blob b2"></div>
+    <div class="cta-inner reveal">
+      <h2>"Your learning journey starts here."</h2>
+      <p>Jangan biarkan kesulitan belajar menghambat potensi Anda. Tim ahli Aksara siap mendampingi Anda mencapai target akademik.</p>
+      <a class="btn btn-gold" href="https://wa.me/6281280169806" target="_blank" rel="noopener">
+        Daftar Sekarang <i class="fa-solid fa-arrow-right"></i>
+      </a>
+      <div class="contact-badges">
+        <a class="contact-badge" href="https://wa.me/6281280169806" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> 0812-8016-9806
+        </a>
+        <a class="contact-badge" href="https://www.instagram.com/aksaracenter.id" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram"></i> @askaracenter.id
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- FOOTER ---------- -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="logo" href="#home">
+            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z" fill="#102B4E"/>
+              <path d="M25 68 Q 38 60 50 68 Q 62 60 75 68 L 80 73 Q 62 65 50 75 Q 38 65 20 73 Z" fill="#1A4073"/>
+              <path d="M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z" fill="#102B4E"/>
+              <path d="M35 45 Q 50 25 65 50 Q 55 40 45 45 Z" fill="#B8934A"/>
+              <path d="M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z" fill="#B8934A"/>
+            </svg>
+            <span class="logo-title" style="font-size:1.1rem;">AKSARA</span>
+          </a>
+          <p class="footer-desc">Pusat pembelajaran dan akademik terpadu yang menemani langkah sukses pendidikan Anda dari usia dini hingga perguruan tinggi.</p>
+          <div class="socials">
+            <a class="social" href="https://www.instagram.com/aksaracenter.id" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a class="social" href="https://wa.me/6281280169806" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Tautan Cepat</h4>
+          <ul>
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang Kami</a></li>
+            <li><a href="#services">Layanan Program</a></li>
+            <li><a href="APPS_SCRIPT_WEBAPP_URL" target="_blank" rel="noopener">Masuk Sistem</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Program Kami</h4>
+          <ul>
+            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Kids" target="_blank" rel="noopener">Aksara Kids (TK-SD)</a></li>
+            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20School" target="_blank" rel="noopener">Aksara School (SD-SMA)</a></li>
+            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Academic" target="_blank" rel="noopener">Aksara Academic (Mahasiswa)</a></li>
+            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20konsultasi%20skripsi" target="_blank" rel="noopener">Konsultasi Skripsi/Tugas Akhir</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Hubungi Kami</h4>
+          <ul class="footer-contact">
+            <li><i class="fa-solid fa-phone"></i><span>0812-8016-9806</span></li>
+            <li><i class="fa-brands fa-instagram"></i><span>@askaracenter.id</span></li>
+            <li><i class="fa-solid fa-clock"></i><span>Senin - Sabtu<br>08:00 - 17:00 WIB</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        &copy; <span id="year">2026</span> Aksara Learning Center.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==================== KONFIGURASI (WAJIB DIISI) ====================
+    // 1. LP_API_URL: URL web app Apps Script (backend spreadsheet) — lihat README.md
+    //    Contoh: 'https://script.google.com/macros/s/AKfycb.../exec'
+    // 2. Ganti semua tulisan 'APPS_SCRIPT_WEBAPP_URL' di file ini dengan URL yang sama
+    //    (tombol "Masuk Sistem" — aplikasi admin tetap berjalan di Apps Script).
+    const LP_API_URL = '';
+
+    // ==================== NAV & UI ====================
+    function scrollTo_(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('burger-icon');
+      menu.classList.toggle('open');
+      if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-xmark');
+      }
+    }
+
+    window.addEventListener('scroll', function() {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ==================== FORM PENDAFTARAN ====================
+    // Key idempotensi: klik dobel / retry memakai key sama → server membalas hasil asli tanpa simpan ulang.
+    let regIdemKey = 'lp' + Date.now().toString(36) + Math.random().toString(36).substring(2, 8);
+
+    function submitRegistration(e) {
+      e.preventDefault();
+      const msg = document.getElementById('reg-msg');
+      const btn = document.getElementById('reg-btn');
+      if (btn.disabled) return;
+
+      const data = {
+        idemKey: regIdemKey,
+        nama: document.getElementById('reg-nama').value,
+        tanggalLahir: document.getElementById('reg-lahir').value,
+        program: document.getElementById('reg-program').value,
+        namaOrangTua: document.getElementById('reg-ortu').value,
+        noHP: document.getElementById('reg-hp').value,
+        email: document.getElementById('reg-email').value.trim(),
+        catatan: document.getElementById('reg-catatan').value
+      };
+
+      if (!data.email || data.email.indexOf('@') === -1) {
+        msg.className = 'form-msg error';
+        msg.textContent = '⚠️ Email wajib diisi — akun pantau orang tua akan dibuat dengan email ini.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ Mengirim...';
+      msg.className = 'form-msg';
+      msg.style.display = 'none';
+
+      const finishOk = function(m) {
+        msg.className = 'form-msg success';
+        msg.textContent = '✅ ' + m;
+        document.getElementById('reg-form').reset();
+        regIdemKey = 'lp' + Date.now().toString(36) + Math.random().toString(36).substring(2, 8);
+      };
+      const finishErr = function(m) {
+        msg.className = 'form-msg error';
+        msg.textContent = '⚠️ ' + m;
+      };
+      const finishReset = function() { btn.disabled = false; btn.textContent = '📨 Kirim Pendaftaran'; };
+
+      if (!LP_API_URL) {
+        finishReset();
+        finishErr('Konfigurasi belum lengkap — isi LP_API_URL dengan URL web app (lihat README). Sementara, hubungi kami via WhatsApp.');
+        return;
+      }
+
+      // POST JSON ke API Apps Script (?api=registrations). Header text/plain
+      // menghindari preflight CORS — Apps Script memproses body apa adanya.
+      fetch(LP_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        redirect: 'follow'
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          finishReset();
+          if (res && res.success) { finishOk((res && res.message) || 'Pendaftaran berhasil!'); }
+          else { finishErr((res && res.message) || 'Pendaftaran gagal. Coba lagi.'); }
+        })
+        .catch(function() {
+          // Fallback JSONP (tanpa CORS). Tanpa key idempotensi (GET, sudah dibersihkan server).
+          const plain = { nama: data.nama, tanggalLahir: data.tanggalLahir, program: data.program, namaOrangTua: data.namaOrangTua, noHP: data.noHP, email: data.email, catatan: data.catatan };
+          const script = document.createElement('script');
+          const timer = setTimeout(function() { cleanup(); finishReset(); finishErr('Koneksi gagal. Coba lagi atau hubungi kami via WhatsApp.'); }, 15000);
+          function cleanup() { clearTimeout(timer); if (script.parentNode) script.parentNode.removeChild(script); delete window.lpRegCb; }
+          window.lpRegCb = function(res) {
+            cleanup();
+            finishReset();
+            if (res && res.success) { finishOk((res && res.message) || 'Pendaftaran berhasil!'); }
+            else { finishErr((res && res.message) || 'Pendaftaran gagal. Coba lagi.'); }
+          };
+          script.src = LP_API_URL + '?api=registrations&callback=lpRegCb&payload=' + encodeURIComponent(JSON.stringify(plain));
+          document.head.appendChild(script);
+        });
+    }
+  </script>
+</body>
+</html>

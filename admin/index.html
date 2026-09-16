@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aksara Learning Center — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #102B4E; --navy2: #1A4073; --gold: #B8934A; --gold2: #D4AF37;
+      --cream: #F8F6F0; --text: #4A5568; --border: #EAE5D9;
+      --ok: #1E6B3C; --err: #B3261E; --warn: #9A7334;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+    h1,h2,h3,h4 { color: var(--navy); font-family: 'Playfair Display', serif; }
+    button { font-family: inherit; cursor: pointer; }
+    input,select,textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 9px; font-size: 0.95rem; font-family: inherit; color: #2D3748; background: #FDFCF9; }
+    input:focus,select:focus,textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,147,74,0.15); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: var(--navy); color: #fff; padding: 11px 10px; text-align: left; font-weight: 600; }
+    td { padding: 11px 10px; border-bottom: 1px solid var(--border); }
+    tr:hover td { background: rgba(184,147,74,0.05); }
+
+    /* Layout */
+    .shell { display: none; }
+    .shell.on { display: block; }
+    .topbar { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand b { font-family: 'Playfair Display', serif; letter-spacing: 2px; font-size: 1.15rem; }
+    .brand small { display: block; font-size: 0.55rem; letter-spacing: 3px; color: var(--gold2); text-transform: uppercase; }
+    .topbar .who { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+    .tbtn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; }
+    .tbtn:hover { background: rgba(255,255,255,0.22); }
+    .nav { display: flex; gap: 4px; overflow-x: auto; background: #fff; border-bottom: 1px solid var(--border); padding: 0 14px; }
+    .nav button { border: none; background: none; padding: 13px 14px; font-size: 0.85rem; font-weight: 700; color: var(--text); border-bottom: 3px solid transparent; white-space: nowrap; }
+    .nav button.active { color: var(--navy); border-bottom-color: var(--gold); }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 22px; }
+
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 18px; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .stat { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+    .stat .n { font-size: 1.6rem; font-weight: 800; color: var(--navy); }
+    .stat .l { font-size: 0.72rem; margin-top: 3px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 8px; border: none; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-n { background: var(--navy); color: #fff; } .btn-n:hover { background: var(--navy2); }
+    .btn-g { background: var(--gold); color: #fff; } .btn-g:hover { background: var(--gold2); }
+    .btn-o { background: #fff; color: var(--navy); border: 1px solid var(--border); } .btn-o:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-d { background: #FDECEA; color: var(--err); } 
+    .btn-sm { padding: 7px 11px; font-size: 0.72rem; }
+
+    .badge { display: inline-block; padding: 3px 11px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; }
+    .b-ok { background: #E8F5E9; color: var(--ok); } .b-warn { background: #FFF6E5; color: var(--warn); }
+    .b-err { background: #FDECEA; color: var(--err); } .b-info { background: #E8F0F9; color: var(--navy2); }
+    .st-Baru { background: #E3F2FD; color: #1565C0; } .st-Selesai { background: #E8F5E9; color: #2E7D32; } .st-Ditolak { background: #FFEBEE; color: #C62828; }
+
+    .toast { position: fixed; top: 18px; right: 18px; z-index: 300; max-width: 380px; padding: 14px 18px; border-radius: 10px; font-size: 0.9rem; display: none; box-shadow: 0 10px 30px rgba(16,43,78,0.25); white-space: pre-line; }
+    .toast.ok { background: #E8F5E9; color: var(--ok); border: 1px solid #BFE3C8; }
+    .toast.err { background: #FDECEA; color: var(--err); border: 1px solid #F5C6C1; }
+
+    .modal-bg { position: fixed; inset: 0; background: rgba(16,43,78,0.5); display: none; align-items: center; justify-content: center; z-index: 200; padding: 18px; }
+    .modal-bg.on { display: flex; }
+    .modal { background: #fff; border-radius: 14px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+    .modal .mh { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .modal .mb { padding: 22px; }
+    .modal .mf { padding: 15px 22px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+    .fg { margin-bottom: 14px; } .fg label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); margin-bottom: 6px; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .empty { text-align: center; padding: 40px 16px; color: var(--text); }
+    .mono { font-family: monospace; font-size: 0.8rem; }
+    .search-in { max-width: 320px; }
+    @media (max-width: 640px) { .frow { grid-template-columns: 1fr; } .topbar { padding: 12px 14px; } .wrap { padding: 14px; } }
+
+    /* Login */
+    .login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy) 0%, #0d1f38 100%); padding: 18px; }
+    .login-box { background: #fff; border-radius: 18px; max-width: 400px; width: 100%; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.4); }
+    .login-head { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; text-align: center; padding: 30px; }
+    .login-head h1 { color: #fff; font-size: 1.4rem; letter-spacing: 2px; }
+    .login-head p { color: var(--gold2); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
+    .login-body { padding: 28px; }
+    .login-err { display: none; background: #FDECEA; color: var(--err); padding: 11px 14px; border-radius: 9px; font-size: 0.85rem; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <div class="login" id="login">
+    <div class="login-box">
+      <div class="login-head">
+        <h1>AKSARA</h1>
+        <p>Learning Center — Sistem Internal</p>
+      </div>
+      <div class="login-body">
+        <div class="login-err" id="login-err"></div>
+        <form onsubmit="doLogin(event)">
+          <div class="fg"><label>Username atau Email</label><input id="lg-user" required autocomplete="username" placeholder="username / email"></div>
+          <div class="fg"><label>Password</label><input id="lg-pass" type="password" required autocomplete="current-password" placeholder="password"></div>
+          <button class="btn btn-n" style="width:100%; justify-content:center;" id="lg-btn">🔐 Masuk</button>
+        </form>
+        <p style="text-align:center; margin-top:14px;"><a href="#" onclick="forgotPass(); return false;" style="font-size:0.83rem; color:var(--navy2);">Lupa password?</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= APP ================= -->
+  <div class="shell" id="shell">
+    <div class="topbar">
+      <div class="brand">
+        <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z" fill="#fff"/>
+          <path d="M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z" fill="#fff"/>
+          <path d="M35 45 Q 50 25 65 50 Q 55 40 45 45 Z" fill="#D4AF37"/>
+          <path d="M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z" fill="#D4AF37"/>
+        </svg>
+        <div><b>AKSARA</b><small>Sistem Manajemen</small></div>
+      </div>
+      <div class="who">
+        <span id="who-label"></span>
+        <button class="tbtn" id="btn-cp" onclick="openChangePass()">🔑 Ganti Password</button>
+        <button class="tbtn" onclick="doLogout()">🚪 Keluar</button>
+      </div>
+    </div>
+
+    <div class="nav" id="nav">
+      <button data-page="dashboard" class="active">📊 Dashboard</button>
+      <button data-page="students">👨‍🎓 Murid</button>
+      <button data-page="classes">🏫 Kelas</button>
+      <button data-page="attendance">📝 Absensi</button>
+      <button data-page="progress">📈 Progres</button>
+      <button data-page="savings">💰 Tabungan</button>
+      <button data-page="transactions">🧾 Transaksi</button>
+      <button data-page="reports">📄 Laporan</button>
+      <button data-page="stats">📊 Statistik</button>
+      <button data-page="users">👥 Users</button>
+      <button data-page="registrations">📥 Pendaftar</button>
+      <button data-page="activitylog">📜 Log</button>
+      <button data-page="loginhistory">🕘 Riwayat Login</button>
+      <button data-page="settings">💬 WhatsApp</button>
+    </div>
+
+    <div class="wrap"><div id="page"></div></div>
+  </div>
+
+  <div class="modal-bg" id="modal" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <div class="mh"><h3 id="m-title"></h3><button class="btn-o btn btn-sm" onclick="closeModal()">✕</button></div>
+      <div class="mb" id="m-body"></div>
+      <div class="mf" id="m-foot"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ============ KONFIGURASI (WAJIB DIISI) ============
+  // URL web app Apps Script (backend spreadsheet). Lihat ../README.md langkah 1-2.
+  const API_URL = '';
+
+  // ============ STATE & API HELPER ============
+  const state = { token: localStorage.getItem('aksara_token') || '', me: null, cache: {}, students: [] };
+  const $ = id => document.getElementById(id);
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  const rp = n => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
+
+  let toastTimer;
+  function toast(msg, type) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + (type || 'ok');
+    t.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.style.display = 'none'; }, type === 'err' ? 6000 : 4000);
+  }
+
+  async function api(fn) {
+    const args = Array.prototype.slice.call(arguments, 1);
+    const r = await fetch(API_URL + '?api=call&token=' + encodeURIComponent(state.token), {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ fn, args })
+    });
+    const data = await r.json();
+    if (data && data.needLogin) { hardLogout(); throw new Error('Sesi berakhir. Silakan login ulang.'); }
+    if (data && data.success === false) {
+      // Sesi tidak valid → kembali ke login; error lain → tampilkan pesan
+      if (/sesi tidak valid/i.test(data.message || '')) { hardLogout(); throw new Error(data.message); }
+      throw new Error(data.message || 'Terjadi kesalahan.');
+    }
+    return data;
+  }
+
+  async function post(endpoint, payload) {
+    const r = await fetch(API_URL + '?api=' + endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload || {})
+    });
+    return r.json();
+  }
+
+  // ============ AUTH ============
+  async function doLogin(e) {
+    e.preventDefault();
+    const btn = $('lg-btn'), err = $('login-err');
+    btn.disabled = true; btn.textContent = '⏳ Memproses...';
+    err.style.display = 'none';
+    try {
+      const res = await post('login', { login: $('lg-user').value.trim(), password: $('lg-pass').value });
+      if (res && res.success && res.token) {
+        state.token = res.token;
+        localStorage.setItem('aksara_token', res.token);
+        await boot();
+      } else {
+        err.textContent = (res && res.message) || 'Login gagal.';
+        err.style.display = 'block';
+      }
+    } catch (ex) {
+      err.textContent = 'Koneksi gagal: ' + ex.message;
+      err.style.display = 'block';
+    }
+    btn.disabled = false; btn.textContent = '🔐 Masuk';
+  }
+
+  function forgotPass() {
+    const login = prompt('Tuliskan username atau email akun Anda.\nAdmin akan mengirim password baru ke email Anda.');
+    if (!login) return;
+    post('forgot-password', { login: login.trim() }).then(res => {
+      toast((res && res.message) || 'Permintaan terkirim.', (res && res.success) ? 'ok' : 'err');
+    }).catch(() => toast('Koneksi gagal.', 'err'));
+  }
+
+  function hardLogout() {
+    state.token = ''; state.me = null; state.cache = {};
+    localStorage.removeItem('aksara_token');
+    $('shell').classList.remove('on');
+    $('login').style.display = 'flex';
+  }
+
+  async function doLogout() {
+    try { await post('logout', { token: state.token }); } catch (e) {}
+    hardLogout();
+  }
+
+  async function boot() {
+    let me;
+    try {
+      me = await post('me', { token: state.token });
+    } catch (e) { toast('Tidak bisa menghubungi server.', 'err'); hardLogout(); return; }
+    if (!me || !me.success) { hardLogout(); return; }
+    state.me = me;
+    $('login').style.display = 'none';
+    $('shell').classList.add('on');
+    $('who-label').textContent = '👤 ' + (me.nama || me.email) + ' · ' + me.peran;
+    $('btn-cp').style.display = '';
+    applyGate(me.peran);
+    loadPage(state.currentPage || 'dashboard');
+  }
+
+  // ============ NAV & GATE ============
+  state.currentPage = 'dashboard';
+  document.querySelectorAll('#nav button').forEach(b => {
+    b.addEventListener('click', () => loadPage(b.dataset.page));
+  });
+
+  function applyGate(peran) {
+    const adminOnly = ['users', 'registrations'];
+    const parentOnly = peran === 'Orang Tua';
+    document.querySelectorAll('#nav button').forEach(b => {
+      const p = b.dataset.page;
+      if (parentOnly) b.style.display = (p === 'dashboard') ? '' : 'none';
+      else if (peran !== 'Admin') b.style.display = adminOnly.includes(p) ? 'none' : '';
+      else b.style.display = '';
+    });
+  }
+
+  function setActiveNav(page) {
+    state.currentPage = page;
+    document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  }
+
+  async function loadPage(page) {
+    setActiveNav(page);
+    const el = $('page');
+    const cached = state.cache[page];
+    if (cached) { RENDER[page](cached); } else { el.innerHTML = '<div class="empty">⏳ Memuat...</div>'; }
+    try {
+      let data;
+      if (page === 'dashboard') {
+        data = state.me.peran === 'Orang Tua' ? await api('getMyChildrenData') : await api('getDashboardData');
+      } else if (page === 'students') data = await api('getStudents');
+      else if (page === 'classes') data = await api('getClasses');
+      else if (page === 'attendance') data = await api('getAttendanceToday');
+      else if (page === 'savings') data = await api('getSavingsAccounts');
+      else if (page === 'transactions') data = await api('getAllTransactions');
+      else if (page === 'users') data = await api('getUsers');
+      else if (page === 'registrations') data = await api('getRegistrations');
+      else if (page === 'progress') data = {};
+      else if (page === 'reports') data = await api('getReportSettings');
+      else if (page === 'stats') data = await api('getStatsData');
+      else if (page === 'activitylog') data = await api('getActivityLog', 200);
+      else if (page === 'loginhistory') { const res = await api('getLoginHistory', lhLimit); data = res.data || []; }
+      else if (page === 'settings') data = await api('getWhatsAppSettings');
+      state.cache[page] = data;
+      RENDER[page](data);
+    } catch (ex) {
+      el.innerHTML = '<div class="card"><div class="empty">⚠️ ' + esc(ex.message) + '<br><br><button class="btn btn-o btn-sm" onclick="loadPage(\'' + page + '\')">🔄 Coba Lagi</button></div></div>';
+    }
+  }
+
+  const RENDER = {
+    // ---------- DASHBOARD ----------
+    dashboard: function(data) {
+      if (data.children) { // Orang Tua
+        const cards = (data.children || []).map(c => {
+          const abs = (c.absensi || []);
+          const hadir = abs.filter(a => a.status === 'Hadir').length;
+          const persen = abs.length ? Math.round(hadir / abs.length * 100) : 0;
+          const tx = (c.transaksi || []).slice(0, 5).map(t =>
+            '<tr><td>' + new Date(t.tanggal).toLocaleDateString('id-ID') + '</td><td><span class="badge ' + (t.jenis === 'Setoran' ? 'b-ok' : 'b-warn') + '">' + t.jenis + '</span></td><td style="text-align:right;">' + rp(t.jumlah) + '</td></tr>').join('');
+          const ab = abs.slice(-7).reverse().map(a =>
+            '<tr><td>' + new Date(a.tanggal).toLocaleDateString('id-ID') + '</td><td><span class="badge ' + (a.status === 'Hadir' ? 'b-ok' : (a.status === 'Alpha' ? 'b-err' : 'b-warn')) + '">' + a.status + '</span></td></tr>').join('');
+          const pr = (c.progres || []).slice(0, 5).map(p =>
+            '<tr><td>' + new Date(p.tanggal).toLocaleDateString('id-ID') + '</td><td>' + esc(p.mapel) + '</td><td>' + esc(p.topik) + '</td><td style="text-align:right;"><b>' + (p.nilai === '' || p.nilai == null ? '-' : p.nilai) + '</b></td></tr>').join('');
+          return '<div class="card"><div class="card-head"><h3>👨‍🎓 ' + esc(c.nama) + ' — ' + esc(c.kelas) + '</h3><span class="badge b-ok">' + rp(c.saldo) + '</span></div>' +
+            '<div class="grid"><div><h4 style="margin-bottom:8px;">💰 Tabungan</h4><table><tbody>' + (tx || '<tr><td>Belum ada transaksi.</td></tr>') + '</tbody></table></div>' +
+            '<div><h4 style="margin-bottom:8px;">📝 Kehadiran ' + (abs.length ? '· ' + persen + '%' : '') + '</h4><table><tbody>' + (ab || '<tr><td>Belum ada catatan.</td></tr>') + '</tbody></table></div>' +
+            '<div><h4 style="margin-bottom:8px;">📈 Progres</h4><table><tbody>' + (pr || '<tr><td>Belum ada catatan.</td></tr>') + '</tbody></table></div></div></div>';
+        }).join('');
+        $('page').innerHTML = '<div class="card"><div class="card-head"><h2>👋 Selamat datang, ' + esc(data.namaOrangTua || state.me.nama || 'Orang Tua') + '</h2></div><p style="font-size:0.9rem;">Pemantauan data anak Anda: tabungan, kehadiran, dan progres belajar.</p></div>' + (cards || '<div class="card"><div class="empty">Belum ada data anak tertaut ke akun ini. Hubungi admin.</div></div>');
+        return;
+      }
+      const s = data.stats || {};
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📊 Dashboard</h2><button class="btn btn-o btn-sm" onclick="state.cache = {}; loadPage(\'dashboard\')">🔄 Refresh</button></div>' +
+        '<div class="grid">' +
+        '<div class="stat"><div class="n">' + (s.totalStudents || 0) + '</div><div class="l">Total Murid</div></div>' +
+        '<div class="stat"><div class="n">' + (s.activeStudents || 0) + '</div><div class="l">Murid Aktif</div></div>' +
+        '<div class="stat"><div class="n">' + (s.totalClasses || 0) + '</div><div class="l">Kelas</div></div>' +
+        '<div class="stat"><div class="n">' + rp(s.netTotal) + '</div><div class="l">Total Saldo</div></div>' +
+        '</div>' +
+        '<div class="card" style="margin-top:18px;"><div class="card-head"><h3>🧾 Transaksi Terbaru</h3></div>' +
+        ((data.recentTransactions || []).length ? '<table><thead><tr><th>Nama</th><th>Jenis</th><th style="text-align:right;">Jumlah</th><th>Waktu</th></tr></thead><tbody>' +
+          data.recentTransactions.map(t => '<tr><td><b>' + esc(t.nama) + '</b></td><td><span class="badge ' + (t.jenis === 'Setoran' ? 'b-ok' : 'b-err') + '">' + t.jenis + '</span></td><td style="text-align:right;">' + rp(t.jumlah) + '</td><td>' + esc(t.waktu) + '</td></tr>').join('') +
+          '</tbody></table>' : '<div class="empty">Belum ada transaksi.</div>') + '</div>' +
+        '<div class="card"><div class="card-head"><h3>⚡ Aksi Cepat</h3></div><div style="display:flex; gap:10px; flex-wrap:wrap;">' +
+        '<button class="btn btn-n btn-sm" onclick="openAddStudent()">➕ Murid</button>' +
+        '<button class="btn btn-n btn-sm" onclick="openAddClass()">➕ Kelas</button>' +
+        '<button class="btn btn-g btn-sm" onclick="openAttendance()">📝 Absensi</button>' +
+        '<button class="btn btn-o btn-sm" onclick="openTransaction()">💰 Transaksi</button></div></div>';
+      state.students = data.students || [];
+      state.cache.students = data.students;
+    },
+
+    // ---------- STUDENTS ----------
+    students: function(list) {
+      list = list || [];
+      state.students = list;
+      const rows = list.map((s, i) =>
+        '<tr><td>' + (i + 1) + '</td><td><b>' + esc(s.nama) + '</b></td><td>' + esc(s.kelasNama || '-') + '</td><td>' + esc(s.noHP || '-') + '</td>' +
+        '<td><span class="badge ' + (s.status === 'Aktif' ? 'b-ok' : 'b-warn') + '">' + esc(s.status) + '</span></td>' +
+        '<td style="text-align:right;"><button class="btn btn-o btn-sm" onclick="openEditStudent(\'' + s.id + '\')">✏️</button> <button class="btn btn-d btn-sm" onclick="delStudent(\'' + s.id + '\', \'' + esc(s.nama).replace(/'/g, '') + '\')">🗑️</button></td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>👨‍🎓 Murid (' + list.length + ')</h2><button class="btn btn-n btn-sm" onclick="openAddStudent()">➕ Tambah Murid</button></div>' +
+        '<div class="card"><input class="search-in" placeholder="🔍 Cari nama/kelas..." oninput="filterTable(this, \'tb-students\')">' +
+        '<div style="overflow-x:auto; margin-top:12px;"><table><thead><tr><th>No</th><th>Nama</th><th>Kelas</th><th>No HP</th><th>Status</th><th></th></tr></thead><tbody id="tb-students">' + (rows || '') + '</tbody></table></div></div>';
+    },
+
+    // ---------- CLASSES ----------
+    classes: function(list) {
+      list = list || [];
+      const rows = list.map(c =>
+        '<tr><td><b>' + esc(c.nama) + '</b></td><td>' + esc(c.guru || '-') + '</td><td>' + esc(c.jadwal || '-') + '</td><td>' + (c.kapasitas || '-') + '</td>' +
+        '<td>' + (c.biaya > 0 ? rp(c.biaya) : 'Gratis') + '</td><td><span class="badge ' + (c.status === 'Aktif' ? 'b-ok' : 'b-warn') + '">' + esc(c.status) + '</span></td>' +
+        '<td><button class="btn btn-d btn-sm" onclick="delClass(\'' + c.id + '\', \'' + esc(c.nama).replace(/'/g, '') + '\')">🗑️</button></td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>🏫 Kelas (' + list.length + ')</h2><button class="btn btn-n btn-sm" onclick="openAddClass()">➕ Tambah Kelas</button></div>' +
+        '<div class="card"><div style="overflow-x:auto;"><table><thead><tr><th>Nama</th><th>Guru</th><th>Jadwal</th><th>Kapasitas</th><th>Biaya/Bulan</th><th>Status</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    },
+
+    // ---------- ATTENDANCE ----------
+    attendance: function(list) {
+      list = list || [];
+      const rows = list.map((a, i) => {
+        const st = state.students.find(s => s.id === a.studentId);
+        return '<tr><td>' + (i + 1) + '</td><td><b>' + esc(st ? st.nama : '?') + '</b></td>' +
+          '<td><span class="badge ' + (a.status === 'Hadir' ? 'b-ok' : (a.status === 'Alpha' ? 'b-err' : 'b-warn')) + '">' + esc(a.status) + '</span></td>' +
+          '<td>' + esc(a.catatan || '-') + '</td><td>' + new Date(a.tanggal).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + '</td></tr>';
+      }).join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📝 Absensi Hari Ini (' + list.length + ')</h2><button class="btn btn-n btn-sm" onclick="openAttendance()">➕ Catat Absensi</button></div>' +
+        '<div class="card"><div style="overflow-x:auto;"><table><thead><tr><th>No</th><th>Nama</th><th>Status</th><th>Catatan</th><th>Waktu</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    },
+
+    // ---------- SAVINGS ----------
+    savings: function(list) {
+      list = list || [];
+      const total = list.reduce((s, a) => s + Number(a.balance || 0), 0);
+      const rows = list.map((a, i) =>
+        '<tr><td>' + (i + 1) + '</td><td><b>' + esc(a.studentName) + '</b></td><td class="mono">' + esc(a.id) + '</td>' +
+        '<td style="text-align:right;"><b>' + rp(a.balance) + '</b></td>' +
+        '<td><button class="btn btn-o btn-sm" onclick="openTransactionFor(\'' + a.id + '\')">💰 Transaksi</button></td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>💰 Tabungan</h2><button class="btn btn-n btn-sm" onclick="openTransaction()">➕ Transaksi</button></div>' +
+        '<div class="grid"><div class="stat"><div class="n">' + list.length + '</div><div class="l">Rekening</div></div><div class="stat"><div class="n">' + rp(total) + '</div><div class="l">Total Saldo</div></div></div>' +
+        '<div class="card" style="margin-top:16px;"><div style="overflow-x:auto;"><table><thead><tr><th>No</th><th>Murid</th><th>ID Rekening</th><th style="text-align:right;">Saldo</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    },
+
+    // ---------- TRANSACTIONS ----------
+    transactions: function(list) {
+      list = list || [];
+      const rows = list.slice(0, 200).map((t, i) =>
+        '<tr><td>' + (i + 1) + '</td><td>' + new Date(t.tanggal).toLocaleDateString('id-ID') + '</td><td><b>' + esc(t.nama) + '</b></td>' +
+        '<td><span class="badge ' + (t.jenis === 'Setoran' ? 'b-ok' : 'b-err') + '">' + t.jenis + '</span></td>' +
+        '<td style="text-align:right;">' + rp(t.jumlah) + '</td><td style="text-align:right;">' + rp(t.saldoSetelah) + '</td><td>' + esc(t.catatan || '-') + '</td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>🧾 Transaksi</h2><button class="btn btn-n btn-sm" onclick="openTransaction()">➕ Baru</button></div>' +
+        '<div class="card"><div style="overflow-x:auto;"><table><thead><tr><th>No</th><th>Tanggal</th><th>Murid</th><th>Jenis</th><th style="text-align:right;">Jumlah</th><th style="text-align:right;">Saldo</th><th>Catatan</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    },
+
+    // ---------- USERS ----------
+    users: function(list) {
+      list = list || [];
+      const rows = list.map((u, i) =>
+        '<tr><td>' + (i + 1) + '</td><td><b>' + esc(u.email) + '</b><div style="font-size:0.75rem;">' + esc(u.nama || '-') + '</div></td>' +
+        '<td>' + (u.username ? '<span class="mono">' + esc(u.username) + '</span>' : '—') + '</td>' +
+        '<td><span class="badge ' + (u.peran === 'Admin' ? 'b-info' : 'b-warn') + '">' + esc(u.peran) + '</span></td>' +
+        '<td><span class="badge ' + (u.status === 'Aktif' ? 'b-ok' : 'b-err') + '">' + esc(u.status) + '</span></td>' +
+        '<td style="white-space:nowrap;">' +
+        '<button class="btn btn-o btn-sm" onclick="toggleUserStatus(\'' + esc(u.email) + '\', \'' + esc(u.status) + '\')" title="Aktif/Nonaktif">' + (u.status === 'Aktif' ? '🚫' : '✅') + '</button> ' +
+        '<button class="btn btn-o btn-sm" onclick="toggleUserRole(\'' + esc(u.email) + '\', \'' + esc(u.peran) + '\')" title="Ganti peran">🔄</button> ' +
+        '<button class="btn btn-o btn-sm" onclick="resetPass(\'' + esc(u.email) + '\')" title="Reset password">🔑</button> ' +
+        '<button class="btn btn-d btn-sm" onclick="delUser(\'' + esc(u.email) + '\')">🗑️</button></td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>👥 Users</h2><button class="btn btn-n btn-sm" onclick="openAddUser()">➕ Tambah User</button></div>' +
+        '<div class="card"><div style="overflow-x:auto;"><table><thead><tr><th>No</th><th>Email</th><th>Username</th><th>Peran</th><th>Status</th><th>Aksi</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<p style="font-size:0.78rem; margin-top:10px;">Buat kredensial username/password staf (Admin & Guru) via menu spreadsheet: <b>LMS & Tabungan → User → 🔑 Buat Akun Admin & Guru</b> — email kredensial dikirim otomatis.</p></div>';
+    },
+
+    // ---------- REGISTRATIONS ----------
+    registrations: function(list) {
+      list = list || [];
+      const count = st => list.filter(r => r.status === st).length;
+      const rows = list.map(r =>
+        '<tr><td><b>' + esc(r.nama) + '</b><div style="font-size:0.75rem;">' + esc(r.program || '-') + '</div></td>' +
+        '<td>' + esc(r.noHP || '-') + '<div style="font-size:0.75rem;">' + esc(r.namaOrangTua || '-') + '</div></td>' +
+        '<td><a href="mailto:' + esc(r.email || '') + '">' + esc(r.email || '-') + '</a></td>' +
+        '<td>' + new Date(r.waktu).toLocaleDateString('id-ID') + '</td>' +
+        '<td><span class="badge st-' + esc(r.status) + '">' + esc(r.status) + '</span></td>' +
+        '<td>' + (r.status === 'Baru' ?
+          '<button class="btn btn-g btn-sm" onclick="convertReg(\'' + r.id + '\')">✅ Jadikan Murid</button> <button class="btn btn-d btn-sm" onclick="rejectReg(\'' + r.id + '\')">❌</button>' :
+          '<span style="font-size:0.75rem;">selesai ✔</span>') + '</td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📥 Pendaftar</h2><button class="btn btn-o btn-sm" onclick="loadPage(\'registrations\')">🔄 Refresh</button></div>' +
+        '<div class="grid"><div class="stat"><div class="n">' + list.length + '</div><div class="l">Total</div></div>' +
+        '<div class="stat"><div class="n">' + count('Baru') + '</div><div class="l">Menunggu</div></div>' +
+        '<div class="stat"><div class="n">' + count('Selesai') + '</div><div class="l">Jadi Murid</div></div>' +
+        '<div class="stat"><div class="n">' + count('Ditolak') + '</div><div class="l">Ditolak</div></div></div>' +
+        '<div class="card" style="margin-top:16px;"><div style="overflow-x:auto;"><table><thead><tr><th>Calon Murid</th><th>Kontak</th><th>Email</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    },
+
+    // ---------- PROGRES ----------
+    progress: function() {
+      const stus = state.students || [];
+      const sel = stus.map(s => '<option value="' + s.id + '">' + esc(s.nama) + ' (' + esc(s.kelasNama || '-') + ')</option>').join('');
+      $('page').innerHTML =
+        '<div class="card"><div class="card-head"><h2>📈 Progres Murid</h2><button class="btn btn-n btn-sm" onclick="openAddProgress()">➕ Tambah Progres</button></div>' +
+        '<p style="font-size:0.88rem;">Pilih murid untuk melihat riwayat progres belajarnya.</p>' +
+        '<div class="frow" style="max-width:640px;"><div class="fg"><label>Murid</label><select id="pg-murid"><option value="">-- Pilih Murid --</option>' + sel + '</select></div>' +
+        '<div class="fg" style="align-self:end;"><button class="btn btn-o btn-sm" onclick="loadProgressStudent()">👁️ Lihat Progres</button></div></div>' +
+        '<div id="pg-result"></div></div>';
+    },
+
+    // ---------- REPORTS ----------
+    reports: function(cfg) {
+      cfg = cfg || {};
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📄 Laporan & Export</h2></div>' +
+        '<div class="grid"><div class="card"><h3 style="margin-bottom:10px;">📝 Laporan Absensi</h3><p style="font-size:0.85rem; margin-bottom:12px;">Riwayat kehadiran semua murid + ringkasan Hadir/Sakit/Izin/Alpha.</p><button class="btn btn-n btn-sm" onclick="genReport(\'absensi\')">📄 Generate</button></div>' +
+        '<div class="card"><h3 style="margin-bottom:10px;">💰 Laporan Tabungan</h3><p style="font-size:0.85rem; margin-bottom:12px;">Rekening per murid + riwayat transaksi terakhir.</p><button class="btn btn-g btn-sm" onclick="genReport(\'tabungan\')">📄 Generate</button></div>' +
+        '<div class="card"><h3 style="margin-bottom:10px;">👤 Laporan Per Murid</h3><p style="font-size:0.85rem; margin-bottom:12px;">Laporan lengkap satu murid: data, tabungan, absensi, progres.</p><button class="btn btn-o btn-sm" onclick="pickStudentReport()">📄 Pilih Murid</button></div>' +
+        '<div class="card"><h3 style="margin-bottom:10px;">🏫 Laporan Per Kelas</h3><p style="font-size:0.85rem; margin-bottom:12px;">Daftar murid per kelas + statistik + riwayat absensi.</p><button class="btn btn-o btn-sm" onclick="pickClassReport()">📄 Pilih Kelas</button></div></div>' +
+        '<div class="card" style="margin-top:18px;"><h3 style="margin-bottom:8px;">⏰ Laporan Otomatis Bulanan</h3>' +
+        '<p style="font-size:0.85rem; margin-bottom:12px;">Laporan Tabungan + Absensi bulan sebelumnya dikirim otomatis ke email di bawah setiap tanggal 1 jam 08:00, dan diarsipkan ke Drive.</p>' +
+        '<div id="rep-status" style="margin-bottom:12px;"><span class="badge ' + (cfg.triggerActive ? 'b-ok' : 'b-info') + '">' + esc(cfg.triggerMessage || 'Status belum diketahui') + '</span></div>' +
+        '<div class="fg"><label>📧 Email Penerima (pisahkan dengan koma)</label><input id="rep-emails" value="' + esc(cfg.emails || '') + '" placeholder="admin@sekolah.com, guru@sekolah.com"></div>' +
+        '<div style="display:flex; gap:10px; flex-wrap:wrap;"><button class="btn btn-n btn-sm" onclick="saveReports()">💾 Simpan & Aktifkan</button>' +
+        '<button class="btn btn-d btn-sm" onclick="stopReports()">⏹️ Hentikan</button>' +
+        '<button class="btn btn-o btn-sm" onclick="testReport()">🧪 Test Sekarang</button></div></div>' +
+        '<div class="card" style="margin-top:18px;"><h3 style="margin-bottom:8px;">📥 Export CSV</h3><div style="display:flex; gap:10px; flex-wrap:wrap;">' +
+        '<button class="btn btn-o btn-sm" onclick="exportStudentsCSV()">👨‍🎓 Data Murid</button>' +
+        '<button class="btn btn-o btn-sm" onclick="exportTransactionsCSV()">🧾 Transaksi</button></div></div>';
+    },
+
+    // ---------- STATS (SVG, senada dengan web app) ----------
+    stats: function(st) {
+      st = st || {};
+      const months = (st.monthly || []).map(m => m.label);
+      const W = 640, H = 260, P = { top: 20, right: 20, bottom: 30, left: 60 };
+      const maxTx = Math.max(1, ...(st.monthly || []).map(m => Math.max(m.deposit, m.withdraw)));
+      const cw = (W - P.left - P.right) / Math.max(1, months.length);
+      const y = v => H - P.bottom - (v / maxTx) * (H - P.top - P.bottom);
+      let bars = '';
+      for (let g = 0; g <= 4; g++) {
+        bars += '<line x1="' + P.left + '" y1="' + y(maxTx * g / 4) + '" x2="' + (W - P.right) + '" y2="' + y(maxTx * g / 4) + '" stroke="#EAE5D9"/>' +
+          '<text x="' + (P.left - 8) + '" y="' + (y(maxTx * g / 4) + 4) + '" text-anchor="end" font-size="11" fill="#999">' + fmtCompact(maxTx * g / 4) + '</text>';
+      }
+      (st.monthly || []).forEach((d, i) => {
+        const bw = Math.max(4, cw * 0.32), x1 = P.left + i * cw + cw / 2;
+        if (d.deposit > 0) bars += '<rect x="' + (x1 - bw - 1) + '" y="' + y(d.deposit) + '" width="' + bw + '" height="' + (H - P.bottom - y(d.deposit)) + '" rx="3" fill="#0F9D58"><title>Setoran ' + d.label + ': ' + rp(d.deposit) + '</title></rect>';
+        if (d.withdraw > 0) bars += '<rect x="' + (x1 + 1) + '" y="' + y(d.withdraw) + '" width="' + bw + '" height="' + (H - P.bottom - y(d.withdraw)) + '" rx="3" fill="#d93025"><title>Tarik ' + d.label + ': ' + rp(d.withdraw) + '</title></rect>';
+        bars += '<text x="' + x1 + '" y="' + (H - 10) + '" text-anchor="middle" font-size="11" fill="#999">' + d.label + '</text>';
+      });
+      const maxAtt = Math.max(1, ...(st.byClass || []).map(c => c.Hadir + c.Sakit + c.Izin + c.Alpha));
+      const rw = (W - P.left - P.right) / Math.max(1, (st.byClass || []).length);
+      let att = '';
+      (st.byClass || []).forEach((c, i) => {
+        let acc2 = 0; const bw = Math.max(4, rw * 0.55), x0 = P.left + i * rw + (rw - bw) / 2;
+        ['Hadir', 'Sakit', 'Izin', 'Alpha'].forEach(stn => {
+          const h = (c[stn] / maxAtt) * (H - P.top - P.bottom);
+          if (c[stn] > 0) att += '<rect x="' + x0 + '" y="' + (H - P.bottom - ((acc2 + c[stn]) / maxAtt) * (H - P.top - P.bottom)) + '" width="' + bw + '" height="' + Math.max(1, h) + '" fill="#' + ({ Hadir: '0F9D58', Sakit: 'F4B400', Izin: '1a73e8', Alpha: 'd93025' }[stn]) + '"><title>' + esc(c.nama) + ' — ' + stn + ': ' + c[stn] + '</title></rect>';
+          acc2 += c[stn];
+        });
+        att += '<text x="' + (x0 + bw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="10" fill="#999">' + esc(c.nama.length > 8 ? c.nama.slice(0, 7) + '…' : c.nama) + '</text>';
+      });
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📊 Statistik</h2><span style="font-size:0.82rem;">12 bulan terakhir · ' + (st.totalTransactions || 0) + ' transaksi · ' + (st.totalAttendance || 0) + ' absensi</span></div>' +
+        '<div class="card"><h3 style="margin-bottom:6px;">💰 Setoran vs Penarikan per Bulan</h3>' +
+        '<p style="font-size:0.78rem; margin-bottom:10px;"><span class="sw" style="background:#0F9D58;"></span> Setoran &nbsp;<span class="sw" style="background:#d93025;"></span> Penarikan</p>' +
+        '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%; height:auto;">' + bars + '</svg></div>' +
+        '<div class="card"><h3 style="margin-bottom:6px;">📝 Absensi per Kelas</h3>' +
+        ((st.byClass || []).length ? '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%; height:auto;">' + att + '</svg>' : '<p style="font-size:0.85rem;">Belum ada kelas.</p>') + '</div>';
+    },
+
+    // ---------- ACTIVITY LOG ----------
+    activitylog: function(logs) {
+      logs = logs || [];
+      const rows = logs.map(l =>
+        '<tr><td style="white-space:nowrap;">' + new Date(l.waktu).toLocaleString('id-ID') + '</td><td><b>' + esc(l.user) + '</b></td>' +
+        '<td><span class="badge b-info">' + esc(l.aksi) + '</span></td><td>' + esc(l.detail || '-') + '</td><td class="mono">' + esc(l.target || '-') + '</td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>📜 Log Aktivitas</h2><button class="btn btn-o btn-sm" onclick="loadPage(\'activitylog\')">🔄 Muat Ulang</button></div>' +
+        '<div class="card"><input class="search-in" placeholder="🔍 Cari user / aksi..." oninput="filterTable(this, \'tb-log\')">' +
+        '<div style="overflow-x:auto; margin-top:12px;"><table><thead><tr><th>Waktu</th><th>User</th><th>Aksi</th><th>Detail</th><th>Target</th></tr></thead><tbody id="tb-log">' +
+        (rows || '<tr><td colspan="5" style="text-align:center;">Belum ada aktivitas.</td></tr>') + '</tbody></table></div></div>';
+    },
+
+    // ---------- LOGIN HISTORY ----------
+    loginhistory: function(rows) {
+      rows = rows || [];
+      const now = new Date();
+      const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const todayCount = rows.filter(r => new Date(r.waktu) >= startToday).length;
+      const activeWeek = new Set(rows.filter(r => new Date(r.waktu) >= new Date(now.getTime() - 7 * 864e5)).map(r => (r.email || '').toLowerCase())).size;
+      const trs = rows.map(r =>
+        '<tr><td style="white-space:nowrap;">' + new Date(r.waktu).toLocaleString('id-ID') + '</td><td><b>' + esc(r.email) + '</b>' + (r.nama ? '<div style="font-size:0.75rem;">' + esc(r.nama) + '</div>' : '') + '</td>' +
+        '<td><span class="badge ' + (r.peran === 'Admin' ? 'b-info' : 'b-warn') + '">' + esc(r.peran || 'Guru') + '</span></td>' +
+        '<td>' + esc(r.metode || 'Google') + '</td><td><span class="badge ' + (r.status === 'Berhasil' ? 'b-ok' : 'b-err') + '">' + esc(r.status) + '</span></td></tr>').join('');
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>🕘 Riwayat Login</h2>' +
+        '<div style="display:flex; gap:6px;">' + [50, 100, 250, 500].map(n => '<span class="badge ' + (lhLimit === n ? 'b-info' : 'b-warn') + '" style="cursor:pointer;" onclick="setLhLimit(' + n + ')">' + n + '</span>').join('') +
+        '<button class="btn btn-o btn-sm" onclick="loadPage(\'loginhistory\')">🔄</button></div></div>' +
+        '<div class="grid" style="margin-bottom:16px;"><div class="stat"><div class="n">' + todayCount + '</div><div class="l">Login Hari Ini</div></div>' +
+        '<div class="stat"><div class="n">' + activeWeek + '</div><div class="l">User Aktif 7 Hari</div></div>' +
+        '<div class="stat"><div class="n">' + rows.length + '</div><div class="l">Baris</div></div></div>' +
+        '<div class="card"><div style="overflow-x:auto;"><table><thead><tr><th>Waktu</th><th>User</th><th>Peran</th><th>Metode</th><th>Status</th></tr></thead><tbody>' +
+        (trs || '<tr><td colspan="5" style="text-align:center;">Belum ada riwayat login.</td></tr>') + '</tbody></table></div></div>';
+    },
+
+    // ---------- WHATSAPP SETTINGS ----------
+    settings: function(cfg) {
+      cfg = cfg || {};
+      $('page').innerHTML =
+        '<div class="card-head" style="margin-bottom:16px;"><h2>💬 Notifikasi WhatsApp (Fonnte)</h2></div>' +
+        '<div class="card"><div id="wa-status" style="margin-bottom:14px;"><span class="badge ' + (cfg.hasToken && cfg.enabled ? 'b-ok' : 'b-info') + '">' +
+        'Token: ' + (cfg.hasToken ? 'sudah diisi' : 'belum diisi') + ' · Status: ' + (cfg.enabled ? 'AKTIF' : 'NONAKTIF') + '</span></div>' +
+        '<div class="fg"><label>🔑 Token Fonnte</label><input type="password" id="wa-token" placeholder="Tempel token dari dashboard Fonnte">' +
+        '<p style="font-size:0.78rem; margin-top:5px;">Kosongkan jika tidak ingin mengganti.</p></div>' +
+        '<div class="fg"><label style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="wa-enabled" style="width:auto;"' + (cfg.enabled ? ' checked' : '') + '> ✅ Aktifkan notifikasi WhatsApp</label></div>' +
+        '<div class="fg"><label>🧪 Nomor Test</label><div style="display:flex; gap:10px;"><input id="wa-test" placeholder="08xxxxxxxxxx" style="flex:1;"><button class="btn btn-o btn-sm" onclick="testWA()">Test Kirim</button></div></div>' +
+        '<button class="btn btn-n btn-sm" onclick="saveWA()">💾 Simpan Pengaturan</button>' +
+        '<p style="font-size:0.8rem; margin-top:14px;">Nomor HP orang tua diambil dari data murid (format 08xx otomatis jadi 628xx). Pesan terkirim jika checkbox WhatsApp dicentang saat input absensi/transaksi.</p></div>';
+    }
+  };
+
+  function fmtCompact(v) {
+    if (v >= 1e9) return (v / 1e9).toFixed(1) + 'M';
+    if (v >= 1e6) return (v / 1e6).toFixed(1) + 'jt';
+    if (v >= 1e3) return Math.round(v / 1e3) + 'rb';
+    return Math.round(v);
+  }
+
+  let lhLimit = 100;
+  function setLhLimit(n) { lhLimit = n; loadPage('loginhistory'); }
+
+  // ---------- AKSI: PROGRES ----------
+  function openAddProgress() {
+    modal('📈 Tambah Progres',
+      '<div class="fg"><label>Murid *</label><select id="p-murid"><option value="">-- Pilih --</option>' + studentOptions() + '</select></div>' +
+      '<div class="frow"><div class="fg"><label>Mata Pelajaran *</label><input id="p-mapel" placeholder="Matematika"></div>' +
+      '<div class="fg"><label>Nilai</label><input type="number" id="p-nilai" min="0" max="100"></div></div>' +
+      '<div class="fg"><label>Topik</label><input id="p-topik" placeholder="Contoh: Penjumlahan pecahan"></div>' +
+      '<div class="fg"><label>Deskripsi</label><textarea id="p-desc" rows="2"></textarea></div>' +
+      '<div class="fg"><label>Guru</label><input id="p-guru"></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveProgress()">💾 Simpan</button>');
+  }
+
+  async function saveProgress() {
+    const data = { studentId: $('p-murid').value, mapel: $('p-mapel').value, topik: $('p-topik').value, nilai: parseFloat($('p-nilai').value) || 0, deskripsi: $('p-desc').value, guru: $('p-guru').value };
+    if (!data.studentId || !data.mapel) { toast('Pilih murid & isi mapel.', 'err'); return; }
+    try { const res = await api('addProgress', data); closeModal(); toast(res.message || 'Progres disimpan.', 'ok'); } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function loadProgressStudent() {
+    const id = $('pg-murid').value;
+    if (!id) { toast('Pilih murid dulu.', 'err'); return; }
+    const el = $('pg-result');
+    el.innerHTML = '<p>⏳ Memuat...</p>';
+    try {
+      const rows = await api('getProgressByStudent', id);
+      const trs = (rows || []).map(p =>
+        '<tr><td>' + new Date(p.tanggal).toLocaleDateString('id-ID') + '</td><td>' + esc(p.mapel) + '</td><td>' + esc(p.topik || '-') + '</td>' +
+        '<td style="text-align:right;"><b>' + (p.nilai === '' || p.nilai == null ? '-' : p.nilai) + '</b></td><td>' + esc(p.deskripsi || '-') + '</td></tr>').join('');
+      el.innerHTML = '<div style="overflow-x:auto; margin-top:14px;"><table><thead><tr><th>Tanggal</th><th>Mapel</th><th>Topik</th><th style="text-align:right;">Nilai</th><th>Deskripsi</th></tr></thead><tbody>' +
+        (trs || '<tr><td colspan="5" style="text-align:center;">Belum ada progres.</td></tr>') + '</tbody></table></div>' +
+        '<button class="btn btn-o btn-sm" style="margin-top:12px;" onclick="openAddProgressFor(\'' + id + '\')">➕ Tambah Progres</button>';
+    } catch (ex) { el.innerHTML = '<p style="color:var(--err);">' + esc(ex.message) + '</p>'; }
+  }
+
+  function openAddProgressFor(studentId) {
+    openAddProgress();
+    setTimeout(() => { const sel = $('p-murid'); if (sel) sel.value = studentId; }, 50);
+  }
+
+  // ---------- AKSI: LAPORAN ----------
+  async function genReport(type, id) {
+    toast('⏳ Membuat laporan...', 'ok');
+    try {
+      const res = id ? await api('downloadReport', type, id) : await api('downloadReport', type);
+      if (res && res.success && res.htmlContent) {
+        const w = window.open('', '_blank');
+        if (!w) { toast('Popup diblokir! Izinkan popup untuk membuka laporan.', 'err'); return; }
+        w.document.write(res.htmlContent);
+        w.document.close();
+        w.onload = function() { w.focus(); w.print(); };
+      } else { toast((res && res.message) || 'Gagal membuat laporan.', 'err'); }
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function pickStudentReport() {
+    try {
+      const list = await api('getStudents');
+      modal('👤 Pilih Murid', '<div class="fg"><label>Murid</label><select id="rep-sid"><option value="">-- Pilih --</option>' +
+        (list || []).map(s => '<option value="' + s.id + '">' + esc(s.nama) + ' (' + esc(s.kelasNama || '-') + ')</option>').join('') + '</select></div>',
+        '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="closeModal(); genReport(\'murid\', document.getElementById(\'rep-sid\').value)">📄 Generate</button>');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function pickClassReport() {
+    try {
+      const list = await api('getClasses');
+      modal('🏫 Pilih Kelas', '<div class="fg"><label>Kelas</label><select id="rep-cid"><option value="">-- Pilih --</option>' +
+        (list || []).map(c => '<option value="' + c.id + '">' + esc(c.nama) + '</option>').join('') + '</select></div>',
+        '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="closeModal(); genReport(\'kelas\', document.getElementById(\'rep-cid\').value)">📄 Generate</button>');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function saveReports() {
+    const emails = $('rep-emails').value.trim();
+    if (!emails) { toast('Isi email penerima dulu.', 'err'); return; }
+    try {
+      const save = await api('saveReportSettings', emails);
+      const inst = await api('triggerInstallMonthly');
+      toast((save.message || '') + ' ' + (inst.message || ''), 'ok'); loadPage('reports');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function stopReports() {
+    if (!confirm('Hentikan laporan otomatis bulanan?')) return;
+    try { const res = await api('triggerRemoveMonthly'); toast(res.message || 'OK', 'ok'); loadPage('reports'); } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function testReport() {
+    toast('⏳ Membuat & mengirim email test...', 'ok');
+    try { const res = await api('triggerTestReport'); toast(res.message || 'Selesai.', (res && res.success) ? 'ok' : 'err'); } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ---------- EXPORT CSV (browser) ----------
+  function downloadCSV(filename, rows) {
+    const csv = rows.map(r => r.map(c => { const s = String(c == null ? '' : c); return /[",\n;]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(';')).join('\r\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+    toast('✅ ' + filename + ' diunduh.', 'ok');
+  }
+
+  async function exportStudentsCSV() {
+    try {
+      const list = await api('getStudents');
+      const rows = [['ID', 'Nama', 'Kelas', 'No HP', 'Status', 'Rekening', 'Tanggal Daftar']];
+      (list || []).forEach(s => rows.push([s.id, s.nama, s.kelasNama || '', s.noHP || '', s.status, s.savingsId || '', s.tanggalDaftar ? new Date(s.tanggalDaftar).toLocaleDateString('id-ID') : '']));
+      downloadCSV('data-murid.csv', rows);
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function exportTransactionsCSV() {
+    try {
+      const list = await api('getAllTransactions');
+      const rows = [['Tanggal', 'Nama', 'Jenis', 'Jumlah', 'Saldo', 'Catatan']];
+      (list || []).forEach(t => rows.push([new Date(t.tanggal).toLocaleDateString('id-ID'), t.nama || '', t.jenis, Number(t.jumlah), Number(t.saldoSetelah), t.catatan || '']));
+      downloadCSV('transaksi.csv', rows);
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ---------- AKSI: WHATSAPP ----------
+  async function saveWA() {
+    const token = $('wa-token').value.trim();
+    const enabled = $('wa-enabled').checked;
+    if (!token && !confirm('Token kosong — tetap simpan (hanya ubah status aktif)?')) return;
+    try { const res = await api('saveWhatsAppSettings', token, enabled); toast(res.message || 'Tersimpan.', 'ok'); loadPage('settings'); } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function testWA() {
+    const phone = $('wa-test').value.trim();
+    if (!phone) { toast('Isi nomor test dulu.', 'err'); return; }
+    toast('⏳ Mengirim WA test...', 'ok');
+    try { const res = await api('testWhatsApp', phone); toast(res.message || 'Selesai.', (res && res.success) ? 'ok' : 'err'); } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  function filterTable(inp, tbodyId) {
+    const q = inp.value.toLowerCase();
+    document.querySelectorAll('#' + tbodyId + ' tr').forEach(tr => {
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  // ============ MODAL HELPERS ============
+  function modal(title, body, foot) {
+    $('m-title').textContent = title;
+    $('m-body').innerHTML = body;
+    $('m-foot').innerHTML = foot || '<button class="btn btn-o btn-sm" onclick="closeModal()">Tutup</button>';
+    $('modal').classList.add('on');
+  }
+  function closeModal() { $('modal').classList.remove('on'); }
+
+  function studentOptions(sel) {
+    return (state.students || []).filter(s => s.status === 'Aktif')
+      .map(s => '<option value="' + s.id + '"' + (s.id === sel ? ' selected' : '') + '>' + esc(s.nama) + ' (' + esc(s.kelasNama || '-') + ')</option>').join('');
+  }
+
+  // ============ AKSI: MURID ============
+  async function openAddStudent() {
+    let classes = [];
+    try { classes = await api('getClasses'); } catch (e) {}
+    const opts = classes.map(c => '<option value="' + c.id + '">' + esc(c.nama) + '</option>').join('');
+    modal('➕ Tambah Murid',
+      '<div class="fg"><label>Nama Lengkap *</label><input id="f-nama" required></div>' +
+      '<div class="frow"><div class="fg"><label>Kelas</label><select id="f-kelas"><option value="">-- Pilih --</option>' + opts + '</select></div>' +
+      '<div class="fg"><label>Tanggal Lahir</label><input type="date" id="f-lahir"></div></div>' +
+      '<div class="frow"><div class="fg"><label>Email Orang Tua</label><input type="email" id="f-email"></div>' +
+      '<div class="fg"><label>No HP</label><input id="f-hp" placeholder="08xx"></div></div>' +
+      '<div class="fg"><label>Status</label><select id="f-status"><option>Aktif</option><option>Cuti</option><option>Lulus</option></select></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveAddStudent()">💾 Simpan</button>');
+  }
+
+  async function saveAddStudent() {
+    const data = { nama: $('f-nama').value, kelasId: $('f-kelas').value, tanggalLahir: $('f-lahir').value, email: $('f-email').value, noHP: $('f-hp').value, status: $('f-status').value };
+    if (!data.nama || data.nama.length < 3) { toast('Nama wajib diisi (min. 3 huruf).', 'err'); return; }
+    try {
+      const res = await api('addStudent', data);
+      closeModal(); toast(res.message || 'Murid ditambahkan.', 'ok'); state.cache = {}; loadPage('students');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function openEditStudent(id) {
+    const s = await api('getStudent', id);
+    let classes = [];
+    try { classes = await api('getClasses'); } catch (e) {}
+    const opts = classes.map(c => '<option value="' + c.id + '"' + (c.id === s.kelasId ? ' selected' : '') + '>' + esc(c.nama) + '</option>').join('');
+    modal('✏️ Edit Murid — ' + esc(s.nama),
+      '<div class="fg"><label>Nama *</label><input id="e-nama" value="' + esc(s.nama) + '"></div>' +
+      '<div class="frow"><div class="fg"><label>Kelas</label><select id="e-kelas"><option value="">-- Pilih --</option>' + opts + '</select></div>' +
+      '<div class="fg"><label>Status</label><select id="e-status">' + ['Aktif', 'Cuti', 'Lulus'].map(x => '<option' + (x === s.status ? ' selected' : '') + '>' + x + '</option>').join('') + '</select></div></div>' +
+      '<div class="frow"><div class="fg"><label>Email</label><input id="e-email" value="' + esc(s.email || '') + '"></div>' +
+      '<div class="fg"><label>No HP</label><input id="e-hp" value="' + esc(s.noHP || '') + '"></div></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveEditStudent(\'' + id + '\')">💾 Simpan</button>');
+  }
+
+  async function saveEditStudent(id) {
+    const data = { id, nama: $('e-nama').value, kelasId: $('e-kelas').value, email: $('e-email').value, noHP: $('e-hp').value, status: $('e-status').value };
+    try {
+      const res = await api('updateStudent', id, data);
+      closeModal(); toast(res.message || 'Tersimpan.', 'ok'); state.cache = {}; loadPage('students');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function delStudent(id, nama) {
+    if (!confirm('Hapus murid ' + nama + '?')) return;
+    try { const res = await api('deleteStudent', id); toast(res.message || 'Terhapus.', 'ok'); state.cache = {}; loadPage('students'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ AKSI: KELAS ============
+  function openAddClass() {
+    modal('➕ Tambah Kelas',
+      '<div class="fg"><label>Nama Kelas *</label><input id="c-nama" placeholder="Kelas 5A"></div>' +
+      '<div class="frow"><div class="fg"><label>Guru</label><input id="c-guru"></div><div class="fg"><label>Jadwal</label><input id="c-jadwal" placeholder="Senin, Rabu"></div></div>' +
+      '<div class="frow"><div class="fg"><label>Kapasitas</label><input type="number" id="c-kap" value="30" min="1"></div><div class="fg"><label>Biaya/Bulan (Rp)</label><input type="number" id="c-biaya" value="0" min="0"></div></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveAddClass()">💾 Simpan</button>');
+  }
+
+  async function saveAddClass() {
+    const data = { nama: $('c-nama').value, guru: $('c-guru').value, jadwal: $('c-jadwal').value, kapasitas: parseInt($('c-kap').value) || 30, biaya: parseInt($('c-biaya').value) || 0, status: 'Aktif' };
+    if (!data.nama) { toast('Nama kelas wajib diisi.', 'err'); return; }
+    try {
+      const res = await api('addClass', data);
+      closeModal(); toast(res.message || 'Kelas ditambahkan.', 'ok'); state.cache = {}; loadPage('classes');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function delClass(id, nama) {
+    if (!confirm('Hapus kelas ' + nama + '?')) return;
+    try { const res = await api('deleteClass', id); toast(res.message || 'Terhapus.', 'ok'); state.cache = {}; loadPage('classes'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ AKSI: ABSENSI ============
+  function openAttendance() {
+    modal('📝 Catat Absensi',
+      '<div class="fg"><label>Murid *</label><select id="a-murid"><option value="">-- Pilih --</option>' + studentOptions() + '</select></div>' +
+      '<div class="fg"><label>Status *</label><select id="a-status"><option>Hadir</option><option>Sakit</option><option>Izin</option><option>Alpha</option></select></div>' +
+      '<div class="fg"><label>Catatan</label><input id="a-catatan"></div>' +
+      '<div class="fg"><label style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="a-wa" style="width:auto;"> 💬 Kirim WhatsApp ke orang tua</label></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveAttendance()">💾 Simpan</button>');
+  }
+
+  async function saveAttendance() {
+    const data = { studentId: $('a-murid').value, status: $('a-status').value, catatan: $('a-catatan').value, notifyWhatsApp: $('a-wa').checked };
+    if (!data.studentId) { toast('Pilih murid dulu.', 'err'); return; }
+    try {
+      const res = await api('recordAttendance', data);
+      closeModal(); toast(res.message || 'Absensi dicatat.', 'ok'); state.cache = {}; loadPage('attendance');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ AKSI: TRANSAKSI ============
+  function openTransaction() {
+    modal('💰 Transaksi Tabungan',
+      '<div class="fg"><label>Murid *</label><select id="t-murid" onchange="txFillSavings()"><option value="">-- Pilih --</option>' + studentOptions() + '</select></div>' +
+      '<div class="fg"><label>ID Rekening</label><input id="t-savings" readonly class="mono"></div>' +
+      '<div class="frow"><div class="fg"><label>Jenis *</label><select id="t-jenis"><option>Setoran</option><option>Penarikan</option></select></div>' +
+      '<div class="fg"><label>Jumlah (Rp) *</label><input type="number" id="t-jumlah" min="1"></div></div>' +
+      '<div class="fg"><label>Catatan</label><input id="t-catatan"></div>' +
+      '<div class="fg"><label style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="t-wa" style="width:auto;"> 💬 Kirim WhatsApp ke orang tua</label></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveTransaction()">✅ Proses</button>');
+  }
+
+  async function txFillSavings() {
+    const id = $('t-murid').value;
+    if (!id) { $('t-savings').value = ''; return; }
+    try { const s = await api('getStudent', id); $('t-savings').value = s.savingsId || ''; } catch (e) {}
+  }
+
+  async function saveTransaction() {
+    const studentId = $('t-murid').value;
+    const data = { studentId, savingsId: $('t-savings').value, jenis: $('t-jenis').value, jumlah: parseInt($('t-jumlah').value) || 0, catatan: $('t-catatan').value, notifyWhatsApp: $('t-wa').checked };
+    if (!studentId || !data.savingsId) { toast('Pilih murid dulu.', 'err'); return; }
+    if (data.jumlah < 1) { toast('Jumlah minimal Rp 1.', 'err'); return; }
+    try {
+      const res = await api('addTransaction', data);
+      closeModal(); toast(res.message || 'Transaksi berhasil.', 'ok'); state.cache = {}; loadPage('savings');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function openTransactionFor(savingsId) {
+    const acc = (state.cache.savings || []).find(a => a.id === savingsId);
+    if (!acc) return;
+    try { const st = await api('getStudent', acc.studentId); state.students = [st].concat(state.students.filter(s => s.id !== st.id)); } catch (e) {}
+    openTransaction();
+    setTimeout(() => {
+      const sel = $('t-murid');
+      if (sel) { sel.value = (state.students.find(s => s.savingsId === savingsId) || {}).id || ''; txFillSavings(); }
+    }, 50);
+  }
+
+  // ============ AKSI: USERS ============
+  function openAddUser() {
+    modal('➕ Tambah User',
+      '<div class="fg"><label>Email Google *</label><input type="email" id="u-email"></div>' +
+      '<div class="fg"><label>Nama</label><input id="u-nama"></div>' +
+      '<div class="frow"><div class="fg"><label>Peran</label><select id="u-peran"><option value="Guru">Guru</option><option value="Admin">Admin</option><option value="Orang Tua">Orang Tua</option></select></div>' +
+      '<div class="fg"><label>Status</label><select id="u-status"><option>Aktif</option><option>Nonaktif</option></select></div></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveAddUser()">💾 Simpan</button>');
+  }
+
+  async function saveAddUser() {
+    const data = { email: $('u-email').value.trim(), nama: $('u-nama').value.trim(), peran: $('u-peran').value, status: $('u-status').value };
+    if (!data.email) { toast('Email wajib diisi.', 'err'); return; }
+    try {
+      const res = await api('addUser', data);
+      closeModal(); toast(res.message || 'User ditambahkan.', 'ok'); loadPage('users');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function toggleUserStatus(email, status) {
+    if (!confirm((status === 'Aktif' ? 'Nonaktifkan ' : 'Aktifkan kembali ') + email + '?')) return;
+    try { const res = await api('updateUser', email, { status: status === 'Aktif' ? 'Nonaktif' : 'Aktif' }); toast(res.message || 'OK', 'ok'); loadPage('users'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function toggleUserRole(email, peran) {
+    const target = peran === 'Admin' ? 'Guru' : 'Admin';
+    if (!confirm('Ubah peran ' + email + ' menjadi ' + target + '?')) return;
+    try { const res = await api('updateUser', email, { peran: target }); toast(res.message || 'OK', 'ok'); loadPage('users'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function resetPass(email) {
+    if (!confirm('Reset password untuk ' + email + '?\nPassword acak baru dibuat & dikirim via email.')) return;
+    try {
+      const res = await api('resetUserPassword', email);
+      if (res && res.success) {
+        modal('🔑 Password Baru',
+          '<div class="fg"><label>Username</label><input readonly value="' + esc(res.username || '(tetap)') + '"></div>' +
+          '<div class="fg"><label>Password Baru</label><input readonly value="' + esc(res.password) + '"></div>' +
+          '<p style="font-size:0.83rem;">Teruskan ke user via email bila perlu. Password lama tidak berlaku lagi.</p>');
+      } else { toast((res && res.message) || 'Gagal.', 'err'); }
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function delUser(email) {
+    if (!confirm('Hapus user ' + email + '?')) return;
+    try { const res = await api('deleteUser', email); toast(res.message || 'Terhapus.', 'ok'); loadPage('users'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ AKSI: PENDAFTAR ============
+  async function convertReg(id) {
+    if (!confirm('Jadikan pendaftar ini murid resmi?\n\nRekening tabungan + akun orang tua otomatis dibuat & email konfirmasi terkirim.')) return;
+    try {
+      const res = await api('convertRegistrationToStudent', id);
+      if (res.success) {
+        let msg = res.message || 'Berhasil!';
+        if (res.username && res.password) msg += '\n\n🔑 Login orang tua — Username: ' + res.username + ' | Password: ' + res.password;
+        toast(msg, 'ok');
+        state.cache = {}; loadPage('registrations');
+      } else { toast(res.message || 'Gagal.', 'err'); }
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  async function rejectReg(id) {
+    if (!confirm('Tolak pendaftaran ini?')) return;
+    try { const res = await api('rejectRegistration', id); toast(res.message || 'OK', 'ok'); loadPage('registrations'); }
+    catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ GANTI PASSWORD SENDIRI ============
+  function openChangePass() {
+    modal('🔑 Ganti Password',
+      '<div class="fg"><label>Password Lama *</label><input type="password" id="cp-old"></div>' +
+      '<div class="fg"><label>Password Baru *</label><input type="password" id="cp-new" placeholder="min. 6 karakter"></div>' +
+      '<div class="fg"><label>Ulangi Password Baru *</label><input type="password" id="cp-new2"></div>',
+      '<button class="btn btn-o btn-sm" onclick="closeModal()">Batal</button><button class="btn btn-n btn-sm" onclick="saveChangePass()">💾 Simpan</button>');
+  }
+
+  async function saveChangePass() {
+    const oldPass = $('cp-old').value, newPass = $('cp-new').value, newPass2 = $('cp-new2').value;
+    if (!oldPass || !newPass) { toast('Semua kolom wajib diisi.', 'err'); return; }
+    if (newPass !== newPass2) { toast('Ulangi password tidak sama.', 'err'); return; }
+    if (newPass.length < 6) { toast('Password baru minimal 6 karakter.', 'err'); return; }
+    try {
+      const res = await post('change-password', { token: state.token, oldPass, newPass });
+      closeModal(); toast(res.message || 'Selesai.', (res && res.success) ? 'ok' : 'err');
+    } catch (ex) { toast(ex.message, 'err'); }
+  }
+
+  // ============ BOOT ============
+  if (state.token && API_URL) {
+    boot();
+  } else if (!API_URL) {
+    // Konfigurasi belum diisi — tampilkan petunjuk di layar login
+    document.querySelector('.login-body').insertAdjacentHTML('afterbegin',
+      '<div style="background:#FFF6E5; border:1px solid #EAD9B0; color:#9A7334; padding:12px 14px; border-radius:9px; font-size:0.82rem; margin-bottom:16px;">⚠️ <b>Belum dikonfigurasi.</b> Isi <code>API_URL</code> di file ini dengan URL web app Apps Script (lihat README).</div>');
+  }
+</script>
+</body>
+</html>
