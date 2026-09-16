@@ -259,6 +259,20 @@
     $('who-label').textContent = '👤 ' + (me.nama || me.email) + ' · ' + me.peran;
     $('btn-cp').style.display = '';
     applyGate(me.peran);
+
+    // ⚡ Startup batch (Admin/Guru): dashboard + murid + kelas + absensi hari ini
+    // dalam SATU round-trip — 4 halaman pertama langsung terisi cache.
+    if (me.peran !== 'Orang Tua') {
+      try {
+        const batch = await post('call', { token: state.token, fn: 'getBatchStartupData', args: [] });
+        if (batch && batch.dashboard) {
+          state.cache.dashboard = batch.dashboard;
+          state.cache.students = batch.students || [];
+          state.cache.classes = batch.classes || [];
+          state.cache.attendance = batch.attendanceToday || [];
+        }
+      } catch (e) { /* batch gagal → fallback jalur normal per halaman */ }
+    }
     loadPage(state.currentPage || 'dashboard');
   }
 
@@ -282,6 +296,30 @@
   function setActiveNav(page) {
     state.currentPage = page;
     document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  }
+
+  // ============ PREFETCH (stale-while-revalidate antar halaman) ============
+  // Setelah data inti masuk cache, halaman lain yang berbagi sumber diambil
+  // di belakang → navigasi terasa instan tanpa menunggu klik user.
+  const PREFETCH_MAP = {
+    students: ['classes'],
+    savings: ['transactions'],
+    classes: ['students']
+  };
+  let prefetching = {};
+  function prefetch(pages) {
+    (pages || []).forEach(p => {
+      if (state.cache[p] || prefetching[p]) return;
+      const loaders = {
+        students: 'getStudents', classes: 'getClasses',
+        attendance: 'getAttendanceToday', savings: 'getSavingsAccounts',
+        transactions: 'getAllTransactions'
+      };
+      if (!loaders[p]) return;
+      prefetching[p] = true;
+      api(loaders[p]).then(d => { state.cache[p] = d; delete prefetching[p]; })
+                      .catch(() => { delete prefetching[p]; });
+    });
   }
 
   async function loadPage(page) {
@@ -308,6 +346,7 @@
       else if (page === 'settings') data = await api('getWhatsAppSettings');
       state.cache[page] = data;
       RENDER[page](data);
+      prefetch(PREFETCH_MAP[page]); // manfaatkan waktu senggang utk halaman berikutnya
     } catch (ex) {
       el.innerHTML = '<div class="card"><div class="empty">⚠️ ' + esc(ex.message) + '<br><br><button class="btn btn-o btn-sm" onclick="loadPage(\'' + page + '\')">🔄 Coba Lagi</button></div></div>';
     }
