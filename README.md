@@ -2,6 +2,10 @@
 
 **Seluruh frontend berjalan di GitHub Pages** — landing page publik **dan** aplikasi admin internal. Apps Script murni menjadi **API backend** dengan Google Sheets sebagai database.
 
+> ✅ **Status: LIVE** — https://aksaralearningcenter.github.io/ (landing) · https://aksaralearningcenter.github.io/admin/ (admin)
+>
+> URL API produksi **sudah terisi** di kedua file (`API_URL` dan `LP_API_URL`). Bagian "isi URL" di bawah hanya perlu diulang bila Anda mendeploy ulang backend dan URL-nya berubah.
+
 ```
 GitHub Pages                          Apps Script (API only)         Google Sheets
 ├─ index.html        (landing publik) → ?api=registrations  ──►  sheet Pendaftaran
@@ -34,7 +38,9 @@ Jika web app Anda sudah pernah deploy, **loncat ke Langkah 2** (hanya butuh URL-
    https://script.google.com/macros/s/AKfycb.../exec
    ```
 
-## Langkah 2 — Isi URL API di frontend
+## Langkah 2 — Isi URL API di frontend (sudah dilakukan)
+
+URL produksi saat ini sudah terisi di kedua file. Lakukan ulang hanya jika deploy backend menghasilkan URL baru:
 
 **`admin/index.html`** (aplikasi admin):
 ```js
@@ -46,28 +52,30 @@ const API_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
 const LP_API_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
 ```
 
-Dan ganti semua tulisan `APPS_SCRIPT_WEBAPP_URL` di `index.html` (4 tempat — tombol "Masuk Sistem") dengan URL yang sama.
+Dan ganti semua tulisan `APPS_SCRIPT_WEBAPP_URL` di `index.html` (tombol "Masuk Sistem") dengan URL yang sama.
 
-## Langkah 3 — Push ke GitHub
+## Langkah 3 — Push ke GitHub (sudah dikonfigurasi)
+
+Repo ini sudah terhubung ke `aksaralearningcenter.github.io` dengan Pages aktif. Untuk update konten cukup:
 
 ```bash
-cd setup_github_fe
+git add -A && git commit -m "update konten" && git push origin main
+```
+
+Referensi instalasi baru:
+
+```bash
 git init
 git add .
 git commit -m "Landing page Aksara + API spreadsheet"
 git branch -M main
-# Buat repo baru di github.com (nama bebas, mis. aksara-landing), lalu:
-git remote add origin https://github.com/aksaralearningcenter/aksaralearningcenter.github.io.git
+git remote add origin https://github.com/USERNAME/USERNAME.github.io.git
 git push -u origin main
 ```
 
-## Langkah 4 — Aktifkan GitHub Pages
+## Langkah 4 — GitHub Pages (sudah aktif)
 
-1. Repo → **Settings → Pages**
-2. **Source: Deploy from a branch** → Branch: `main`, folder: `/ (root)` → **Save**
-3. ±1 menit, situs hidup di **https://aksaralearningcenter.github.io/** (repo `username.github.io` = domain root)
-
-`.nojekyll` sudah disertakan agar semua file dilayani apa adanya.
+Repo `username.github.io` mengaktifkan Pages **otomatis** saat push pertama — situs hidup ±1 menit di root domain. `.nojekyll` sudah disertakan agar semua file dilayani apa adanya.
 
 ---
 
@@ -82,7 +90,7 @@ setup_github_fe/
 └── README.md
 ```
 
-Aplikasi admin diakses di **https://aksaralearningcenter.github.io/admin/**.
+Aplikasi admin diakses di **https://aksaralearningcenter.github.io/admin/** dan mencakup 14 halaman: 📊 Dashboard (grafik tren 7/30/90 hari) · 👨‍🎓 Murid · 🏫 Kelas · 📝 Absensi · 📈 Progres · 💰 Tabungan · 🧾 Transaksi · 📄 Laporan (PDF) · 📥 Export CSV · 📊 Statistik (grafik 12 bulan) · 👥 Users · 📥 Pendaftar (terima/tolak → akun orang tua otomatis) · 📜 Log Aktivitas · 🕘 Riwayat Login · 💬 WhatsApp settings — plus ganti password sendiri, lupa password, dan tema Aksara navy/emas responsif.
 
 ---
 
