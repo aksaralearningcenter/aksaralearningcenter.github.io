@@ -1,6 +1,0 @@
-<!DOCTYPE html><html><body><pre id="o">go</pre><script>
-const U='https://script.google.com/macros/s/AKfycbxjwUMcd0jj45u8Bl0qWS5dQC62WRWLUCcnJZSostMnoZRd1Sg8XlwD6etd5zF5s3-aKA/exec';
-fetch(U,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({login:'tes-tes',password:'tes'})})
- .then(r=>r.text()).then(t=>document.getElementById('o').textContent='HASIL: '+t.slice(0,200))
- .catch(e=>document.getElementById('o').textContent='CATCH: '+e);
-</script></body></html>
