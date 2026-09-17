@@ -8,8 +8,10 @@
   <meta name="description" content="Menemani setiap langkah dalam perjalanan belajar. Layanan bimbingan belajar untuk TK, SD, SMP, SMA, hingga Mahasiswa (Skripsi & Karya Ilmiah).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css">
   <style>
     :root {
       --navy: #102B4E;
@@ -614,7 +616,12 @@
 
         <div class="hero-visual reveal">
           <div class="hero-photo">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" alt="Suasana belajar di Aksara Learning Center">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75"
+                 srcset="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=75 400w,
+                         https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75 800w,
+                         https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=75 1200w"
+                 sizes="(max-width: 960px) 100vw, 50vw"
+                 width="800" height="450" loading="lazy" alt="Suasana belajar di Aksara Learning Center">
           </div>
           <div class="float-card">
             <div class="fc-icon"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -971,8 +978,16 @@
         body: JSON.stringify(data),
         redirect: 'follow'
       })
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
+        .then(function(r) {
+          if (!r.ok) throw new Error('Server error (HTTP ' + r.status + ')');
+          return r.text();
+        })
+        .then(function(text) {
+          var res;
+          try { res = JSON.parse(text); } catch (e) {
+            console.error('Non-JSON response from registration:', text.substring(0, 200));
+            throw new Error('Respon server tidak valid');
+          }
           finishReset();
           if (res && res.success) { finishOk((res && res.message) || 'Pendaftaran berhasil!'); }
           else { finishErr((res && res.message) || 'Pendaftaran gagal. Coba lagi.'); }
@@ -981,7 +996,7 @@
           // Fallback JSONP (tanpa CORS). Tanpa key idempotensi (GET, sudah dibersihkan server).
           const plain = { nama: data.nama, tanggalLahir: data.tanggalLahir, program: data.program, namaOrangTua: data.namaOrangTua, noHP: data.noHP, email: data.email, catatan: data.catatan };
           const script = document.createElement('script');
-          const timer = setTimeout(function() { cleanup(); finishReset(); finishErr('Koneksi gagal. Coba lagi atau hubungi kami via WhatsApp.'); }, 15000);
+          const timer = setTimeout(function() { cleanup(); finishReset(); finishErr('Koneksi lambat. Coba lagi atau hubungi kami via WhatsApp.'); }, 8000);
           function cleanup() { clearTimeout(timer); if (script.parentNode) script.parentNode.removeChild(script); delete window.lpRegCb; }
           window.lpRegCb = function(res) {
             cleanup();
