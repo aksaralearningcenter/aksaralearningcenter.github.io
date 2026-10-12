@@ -1,972 +1,307 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="referrer" content="no-referrer">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <link rel="preconnect" href="https://backend-aksara.vercel.app" crossorigin>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z' fill='%23102B4E'/%3E%3Cpath d='M25 68 Q 38 60 50 68 Q 62 60 75 68 L 80 73 Q 62 65 50 75 Q 38 65 20 73 Z' fill='%231A4073'/%3E%3Cpath d='M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z' fill='%23102B4E'/%3E%3Cpath d='M35 45 Q 50 25 65 50 Q 55 40 45 45 Z' fill='%23B8934A'/%3E%3Cpath d='M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z' fill='%23B8934A'/%3E%3C/svg%3E">
-  <meta name="theme-color" content="#102B4E">
-  <title>Aksara Learning Center | Dari Dasar hingga Akademik</title>
-  <meta name="description" content="Pusat pembelajaran & akademik terpadu: Calistung anak, bimbingan sekolah, pendampingan mahasiswa, penulisan karya ilmiah, hingga skripsi & tugas akhir.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/solid.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/regular.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css">
-  <link rel="stylesheet" href="./src/styles/landing.css">
-  <!-- Gaya halaman buku (kertas, tipografi, sampul, Daftar Isi) — dipakai bersama
-       pembaca di halaman Perpustakaan dan pembaca di panel admin. -->
-  <link rel="stylesheet" href="./src/styles/buku.css">
-</head>
-<body>
-  <!-- ================= NAVBAR ================= -->
-  <nav class="nav" id="nav">
-    <div class="container">
-      <div class="nav-inner">
-        <a class="logo" href="#home" data-nav="home">
-          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z" fill="#102B4E"/>
-            <path d="M25 68 Q 38 60 50 68 Q 62 60 75 68 L 80 73 Q 62 65 50 75 Q 38 65 20 73 Z" fill="#1A4073"/>
-            <path d="M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z" fill="#102B4E"/>
-            <path d="M35 45 Q 50 25 65 50 Q 55 40 45 45 Z" fill="#B8934A"/>
-            <path d="M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z" fill="#B8934A"/>
-          </svg>
-          <div class="logo-text">
-            <span class="logo-title">AKSARA</span>
-            <span class="logo-sub">Learning Center</span>
-          </div>
-        </a>
-
-        <div class="nav-links">
-          <button class="nav-link active" data-nav="home">Beranda</button>
-          <button class="nav-link" data-nav="program">Program</button>
-          <button class="nav-link" data-nav="kurikulum">Kurikulum</button>
-          <button class="nav-link" data-nav="harga">Harga</button>
-          <button class="nav-link" data-nav="buku">Perpustakaan</button>
-          <button class="nav-link" data-nav="berita">Berita</button>
-          <button class="nav-link" data-nav="daftar">Daftar</button>
-          <a class="btn btn-navy btn-sm" href="sites/" rel="noopener">Masuk Sistem</a>
-        </div>
-
-        <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
-          <i class="fa-solid fa-bars" id="burger-icon"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="mobile-menu" id="mobile-menu">
-      <button class="nav-link" data-nav="home">Beranda</button>
-      <button class="nav-link" data-nav="program">Program</button>
-      <button class="nav-link" data-nav="kurikulum">Kurikulum</button>
-      <button class="nav-link" data-nav="harga">Harga</button>
-      <button class="nav-link" data-nav="buku">Perpustakaan</button>
-      <button class="nav-link" data-nav="berita">Berita</button>
-      <button class="nav-link" data-nav="daftar">Daftar</button>
-      <a class="btn btn-navy" href="sites/" rel="noopener">Masuk Sistem</a>
-    </div>
-  </nav>
-
-  <!-- ================= HERO ================= -->
-  <section class="hero page-view active" id="home" data-page="home">
-    <div class="hero-glow g1"></div>
-    <div class="hero-glow g2"></div>
-    <div class="container">
-      <div class="hero-inner">
-        <div class="reveal">
-          <div class="badge"><span class="dot"></span> <span data-set="hero_badge">Pusat Pembelajaran &amp; Akademik</span></div>
-          <h1>Dari Dasar <br><span class="gradient-text" style="font-style:italic;" data-set="hero_judul">hingga Akademik.</span></h1>
-          <p class="hero-sub" data-set="hero_sub">Platform bimbingan belajar terpadu untuk setiap jenjang — mulai baca tulis anak,
-            pendampingan sekolah, hingga bimbingan tugas akhir mahasiswa.</p>
-          <div class="hero-ctas">
-            <button class="btn btn-navy" data-nav="program">Jelajahi Program</button>
-            <button class="btn btn-outline" data-nav="daftar">
-              <i class="fa-solid fa-pen-to-square"></i> Daftar Sekarang
-            </button>
-          </div>
-          <div class="hero-trust">
-            <div>
-              <div class="t-n" data-set="trust1_nilai">5</div>
-              <div class="t-l" data-set="trust1_label">Program Unggulan</div>
-            </div>
-            <div>
-              <div class="t-n" data-set="trust2_nilai">1-on-1</div>
-              <div class="t-l" data-set="trust2_label">&amp; Kelompok Kecil</div>
-            </div>
-            <div>
-              <div class="t-n" data-set="trust3_nilai">TK–S1</div>
-              <div class="t-l" data-set="trust3_label">Semua Jenjang</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-visual reveal">
-          <div class="hero-photo">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75"
-                 srcset="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=75 400w,
-                         https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75 800w,
-                         https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=75 1200w"
-                 sizes="(max-width: 960px) 100vw, 50vw"
-                 width="800" height="450" loading="lazy" alt="Suasana belajar di Aksara Learning Center">
-          </div>
-          <div class="float-card">
-            <div class="fc-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div>
-              <h4>Tutor Ahli</h4>
-              <p>Berpengalaman &amp; Profesional</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= STATS ================= -->
-  <section class="stats-band page-view active" data-page="home">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item reveal"><div class="sn" data-stat="1">0</div><div class="sl" data-stat-label="1">Siswa Terbantu</div></div>
-        <div class="stat-item reveal"><div class="sn" data-stat="2">0</div><div class="sl" data-stat-label="2">Program Belajar</div></div>
-        <div class="stat-item reveal"><div class="sn" data-stat="3">0</div><div class="sl" data-stat-label="3">Kepuasan Orang Tua</div></div>
-        <div class="stat-item reveal"><div class="sn" data-stat="4">0</div><div class="sl" data-stat-label="4">Tahun Pengalaman</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= FEATURES ================= -->
-  <section class="section alt page-view active" id="tentang" data-page="home">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Mengapa Aksara?</div>
-        <h2 data-set="seksi_unggulan_judul">Lebih dari sekadar tempat belajar, kami mitra kesuksesan Anda.</h2>
-      </div>
-      <div class="feature-grid">
-        <div class="feature reveal">
-          <div class="f-icon"><i class="fa-solid fa-book-open"></i></div>
-          <h3>Kurikulum Adaptif</h3>
-          <p>Materi disesuaikan kebutuhan dan gaya belajar masing-masing siswa untuk hasil optimal.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="f-icon"><i class="fa-solid fa-users"></i></div>
-          <h3>Pendampingan Personal</h3>
-          <p>Pendekatan 1-on-1 atau kelompok kecil agar perkembangan siswa terpantau jelas.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="f-icon"><i class="fa-solid fa-chart-line"></i></div>
-          <h3>Progres Terukur</h3>
-          <p>Laporan berkala nilai, kehadiran, dan capaian belajar yang dapat dipantau orang tua.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="f-icon"><i class="fa-solid fa-award"></i></div>
-          <h3>Kualitas Terjamin</h3>
-          <p>Membantu ratusan siswa mencapai target akademik dari jenjang dasar hingga kelulusan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PROGRAM ================= -->
-  <section class="section page-view" id="program" data-page="program">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Program Kami</div>
-        <h2 data-set="seksi_program_judul">Katalog Program Pembelajaran</h2>
-        <p data-set="seksi_program_sub">Pilih jenjang yang sesuai — setiap program dirancang dengan capaian belajar yang jelas.</p>
-      </div>
-
-      <div class="program-grid" id="program-utama"></div>
-
-      <div class="program-grid second" id="program-tambahan"></div>
-    </div>
-  </section>
-
-  <!-- ================= KURIKULUM / DOKUMENTASI ================= -->
-  <section class="section alt page-view" id="kurikulum" data-page="kurikulum">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Kurikulum &amp; Dokumentasi</div>
-        <h2 data-set="seksi_kurikulum_judul">Transparansi Program untuk Calon Siswa</h2>
-        <p data-set="seksi_kurikulum_sub">Lihat materi, alur belajar, dan capaian tiap program sebelum mendaftar.</p>
-      </div>
-
-      <div class="doc-wrap reveal" id="doc-wrap">
-        <div class="doc-tabs" role="tablist"></div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= HARGA & PAKET ================= -->
-  <!-- Seksi ini disembunyikan sampai admin mengisi data (renderer yang menghilangkannya) -->
-  <section class="section page-view is-hidden" id="harga" data-page="harga">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Paket Harga &amp; Layanan</div>
-        <h2 data-set="seksi_harga_judul">Harga Transparan, Paket Bulanan</h2>
-        <p data-set="seksi_harga_sub">Harga dalam bentuk paket bulanan — bukan per pertemuan. Tersedia kelas online maupun private datang ke rumah, dengan penyesuaian jarak &amp; jenjang.</p>
-      </div>
-      <!-- Catatan: tab & tabel di bawah dirender dari data admin (menu Harga di aplikasi admin). -->
-
-      <!-- Tiga paket utama -->
-      <div class="plan-grid">
-        <div class="plan reveal">
-          <div class="plan-emoji">🌱</div>
-          <h3>Basic</h3>
-          <div class="plan-freq">4× Pembelajaran / Bulan</div>
-          <p>Untuk siswa yang hanya membutuhkan pendampingan tambahan.</p>
-          <div class="plan-price"><span class="lbl">Mulai dari</span><span class="val">Rp180.000<small>per bulan (TK–SD online)</small></span></div>
-        </div>
-        <div class="plan featured reveal">
-          <div class="plan-badge">Paling Populer</div>
-          <div class="plan-emoji">⭐</div>
-          <h3>Regular</h3>
-          <div class="plan-freq">8× Pembelajaran / Bulan</div>
-          <p>Untuk siswa yang ingin belajar rutin ±2× seminggu.</p>
-          <div class="plan-price"><span class="lbl">Mulai dari</span><span class="val">Rp340.000<small>per bulan (TK–SD online)</small></span></div>
-        </div>
-        <div class="plan reveal">
-          <div class="plan-emoji">🚀</div>
-          <h3>Intensive</h3>
-          <div class="plan-freq">12× Pembelajaran / Bulan</div>
-          <p>Pendampingan intensif, persiapan ujian, atau mengejar ketertinggalan.</p>
-          <div class="plan-price"><span class="lbl">Mulai dari</span><span class="val">Rp480.000<small>per bulan (TK–SD online)</small></span></div>
-        </div>
-      </div>
-
-      <!-- Tabel harga per program -->
-      <div class="pr-wrap reveal">
-        <div class="pr-tabs" role="tablist">
-          <button class="pr-tab active" data-pr="kids">Aksara Kids (TK–SD)</button>
-          <button class="pr-tab" data-pr="sd">School — SD</button>
-          <button class="pr-tab" data-pr="smp">School — SMP</button>
-          <button class="pr-tab" data-pr="sma">School — SMA</button>
-          <button class="pr-tab" data-pr="academic">Academic (Mahasiswa)</button>
-          <button class="pr-tab" data-pr="writing">Writing</button>
-          <button class="pr-tab" data-pr="final">Final Project</button>
-        </div>
-
-        <div class="pr-panel active" id="pr-kids">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-child-reaching"></i></div>
-            <div><h3>Aksara Kids — TK–SD</h3><p>Calistung &amp; pendampingan belajar.</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th>Pertemuan</th><th>Online</th><th>Private Dekat*</th></tr></thead>
-              <tbody>
-                <tr><td>Basic</td><td>4× / bulan</td><td class="rp-strong">Rp180.000</td><td class="rp-strong">Rp200.000</td></tr>
-                <tr class="featured"><td>Regular</td><td>8× / bulan</td><td class="rp-strong">Rp340.000</td><td class="rp-strong">Rp400.000</td></tr>
-                <tr><td>Intensif</td><td>12× / bulan</td><td class="rp-strong">Rp480.000</td><td class="rp-strong">Rp570.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">*Private dekat = sekitar <b>0–3 km</b>. Durasi 60–90 menit/sesi menyesuaikan jenjang. Contoh Regular: 8 sesi × Rp50.000 = <b>Rp400.000/bulan</b> (private dekat).</p>
-        </div>
-
-        <div class="pr-panel" id="pr-sd">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-book"></i></div>
-            <div><h3>Aksara School — SD</h3><p>Bimbingan mata pelajaran sekolah.</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th>Pertemuan</th><th>Online</th><th>Private Dekat</th></tr></thead>
-              <tbody>
-                <tr><td>Basic</td><td>4× / bulan</td><td class="rp-strong">Rp180.000</td><td class="rp-strong">Rp200.000</td></tr>
-                <tr class="featured"><td>Regular</td><td>8× / bulan</td><td class="rp-strong">Rp340.000</td><td class="rp-strong">Rp400.000</td></tr>
-                <tr><td>Intensif</td><td>12× / bulan</td><td class="rp-strong">Rp480.000</td><td class="rp-strong">Rp570.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Durasi 60–90 menit/sesi. Harga private menyesuaikan jarak (lihat tabel zona jarak di bawah).</p>
-        </div>
-
-        <div class="pr-panel" id="pr-smp">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-book-open"></i></div>
-            <div><h3>Aksara School — SMP</h3><p>Materi lebih kompleks, pendampingan lebih terarah.</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th>Pertemuan</th><th>Online</th><th>Private Dekat</th></tr></thead>
-              <tbody>
-                <tr><td>Basic</td><td>4× / bulan</td><td class="rp-strong">Rp220.000</td><td class="rp-strong">Rp240.000</td></tr>
-                <tr class="featured"><td>Regular</td><td>8× / bulan</td><td class="rp-strong">Rp420.000</td><td class="rp-strong">Rp480.000</td></tr>
-                <tr><td>Intensif</td><td>12× / bulan</td><td class="rp-strong">Rp600.000</td><td class="rp-strong">Rp690.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Durasi 60–90 menit/sesi. Harga private menyesuaikan jarak (lihat tabel zona jarak di bawah).</p>
-        </div>
-
-        <div class="pr-panel" id="pr-sma">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div><h3>Aksara School — SMA</h3><p>Pendampingan mapel tingkat atas &amp; persiapan ujian.</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th>Pertemuan</th><th>Online</th><th>Private Dekat</th></tr></thead>
-              <tbody>
-                <tr><td>Basic</td><td>4× / bulan</td><td class="rp-strong">Rp250.000</td><td class="rp-strong">Rp280.000</td></tr>
-                <tr class="featured"><td>Regular</td><td>8× / bulan</td><td class="rp-strong">Rp480.000</td><td class="rp-strong">Rp560.000</td></tr>
-                <tr><td>Intensif</td><td>12× / bulan</td><td class="rp-strong">Rp690.000</td><td class="rp-strong">Rp810.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Contoh SMA Regular private <b>Rp560.000/bulan</b>: 8 sesi × ±90 menit — tutor Rp480.000 + operasional/transport Rp80.000.</p>
-        </div>
-
-        <div class="pr-panel" id="pr-academic">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-user-graduate"></i></div>
-            <div><h3>Aksara Academic — Mahasiswa</h3><p>Materi &amp; kebutuhan akademik lebih spesifik.</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th>Pertemuan</th><th>Online</th><th>Private Dekat</th></tr></thead>
-              <tbody>
-                <tr><td>Basic</td><td>4× / bulan</td><td class="rp-strong">Rp300.000</td><td class="rp-strong">Rp340.000</td></tr>
-                <tr class="featured"><td>Regular</td><td>8× / bulan</td><td class="rp-strong">Rp580.000</td><td class="rp-strong">Rp660.000</td></tr>
-                <tr><td>Intensif</td><td>12× / bulan</td><td class="rp-strong">Rp840.000</td><td class="rp-strong">Rp960.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Regular Rp660.000 mencakup 8× pendampingan, konsultasi materi akademik, pembahasan tugas, review pekerjaan (±90 menit/sesi). Kebutuhan khusus (analisis data, statistik, coding) dikenakan harga khusus.</p>
-        </div>
-
-        <div class="pr-panel" id="pr-writing">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-pen-nib"></i></div>
-            <div><h3>Aksara Writing</h3><p>Makalah • Artikel • Karya Ilmiah</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th class="t-left">Isi</th><th>Harga</th></tr></thead>
-              <tbody>
-                <tr><td>Starter</td><td class="t-left">Konsultasi + outline + 2× review</td><td class="rp-strong">Rp250.000</td></tr>
-                <tr class="featured"><td>Regular</td><td class="t-left">Pendampingan penulisan + 4× review</td><td class="rp-strong">Rp450.000</td></tr>
-                <tr><td>Intensive</td><td class="t-left">Pendampingan outline sampai final + 6× review</td><td class="rp-strong">Rp700.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Regular mencakup konsultasi topik, penyusunan outline, pendampingan penulisan, review struktur &amp; bahasa, 4× revisi, dan konsultasi online. Layanan ini merupakan <b>pendampingan</b>, bukan pengerjaan karya akademik atas nama mahasiswa.</p>
-        </div>
-
-        <div class="pr-panel" id="pr-final">
-          <div class="pr-head">
-            <div class="pr-icon"><i class="fa-solid fa-scroll"></i></div>
-            <div><h3>Aksara Final Project</h3><p>Skripsi • Tugas Akhir • Pendampingan Akademik</p></div>
-          </div>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Paket</th><th class="t-left">Isi</th><th>Harga</th></tr></thead>
-              <tbody>
-                <tr><td>Starter</td><td class="t-left">Konsultasi + arahan penelitian</td><td class="rp-strong">Rp350.000</td></tr>
-                <tr class="featured"><td>Regular</td><td class="t-left">Pendampingan 8 sesi / bulan</td><td class="rp-strong">Rp750.000</td></tr>
-                <tr><td>Intensive</td><td class="t-left">Pendampingan 12 sesi / bulan</td><td class="rp-strong">Rp1.050.000</td></tr>
-                <tr><td>Premium</td><td class="t-left">Pendampingan intensif + review berkala</td><td class="rp-strong">Rp1.500.000<span class="rp-sub">per bulan</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Regular Rp750.000 mencakup 8 sesi konsultasi, finalisasi topik, penyusunan kerangka, pendampingan metodologi, review progres &amp; draft, serta konsultasi revisi (±90 menit/sesi).</p>
-        </div>
-      </div>
-
-      <!-- Zona jarak & tarif per jenjang -->
-      <div class="price-tables-grid">
-        <div class="price-box reveal" id="price-zona-box">
-          <h3>Tarif Private — Berdasarkan Jarak</h3>
-          <p class="pb-sub">Tarif dasar jenjang SD. Tarif per sesi menyesuaikan jarak.</p>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Jarak dari tutor</th><th>Tarif / sesi</th><th>Paket 8×/bulan</th></tr></thead>
-              <tbody>
-                <tr><td>0–3 km</td><td>Rp50.000</td><td class="rp-strong">Rp400.000</td></tr>
-                <tr><td>&gt;3–6 km</td><td>Rp60.000</td><td class="rp-strong">Rp480.000</td></tr>
-                <tr><td>&gt;6–10 km</td><td>Rp70.000</td><td class="rp-strong">Rp560.000</td></tr>
-                <tr><td>&gt;10–15 km</td><td>Rp85.000</td><td class="rp-strong">Rp680.000</td></tr>
-                <tr><td>&gt;15 km</td><td>Mulai Rp100.000</td><td class="rp-strong">Mulai Rp800.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="price-box reveal" id="price-jenjang-box">
-          <h3>Tarif per Jenjang</h3>
-          <p class="pb-sub">Tambahan karena materi lebih kompleks (tarif / sesi).</p>
-          <div class="table-scroll">
-            <table class="price-table">
-              <thead><tr><th>Jenjang</th><th>0–3 km</th><th>3–6 km</th><th>6–10 km</th><th>10–15 km</th></tr></thead>
-              <tbody>
-                <tr><td>SD</td><td>Rp50k</td><td>Rp60k</td><td>Rp70k</td><td>Rp85k</td></tr>
-                <tr><td>SMP</td><td>Rp60k</td><td>Rp70k</td><td>Rp80k</td><td>Rp95k</td></tr>
-                <tr><td>SMA</td><td>Rp70k</td><td>Rp80k</td><td>Rp90k</td><td>Rp110k</td></tr>
-                <tr><td>Mahasiswa</td><td>Rp85k</td><td>Rp95k</td><td>Rp110k</td><td>Rp125k</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="price-note">Contoh: SMA private 8×/bulan, jarak 7 km → 8 × Rp90.000 = <b>Rp720.000/bulan</b>.</p>
-        </div>
-      </div>
-
-      <!-- Paket online -->
-      <div class="price-box reveal" id="price-online-box" style="margin-top:28px;">
-        <h3>Paket Online per Jenjang</h3>
-        <p class="pb-sub">Lebih hemat karena tanpa waktu &amp; biaya perjalanan.</p>
-        <div class="table-scroll">
-          <table class="price-table">
-            <thead><tr><th>Jenjang</th><th>4× / bulan</th><th>8× / bulan</th><th>12× / bulan</th></tr></thead>
-            <tbody>
-              <tr><td>TK–SD</td><td>Rp180.000</td><td class="rp-strong">Rp340.000</td><td>Rp480.000</td></tr>
-              <tr><td>SMP</td><td>Rp220.000</td><td class="rp-strong">Rp420.000</td><td>Rp600.000</td></tr>
-              <tr><td>SMA</td><td>Rp250.000</td><td class="rp-strong">Rp480.000</td><td>Rp690.000</td></tr>
-              <tr><td>Mahasiswa</td><td>Rp300.000</td><td class="rp-strong">Rp580.000</td><td>Rp840.000</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <ul class="perk-list">
-          <li><i class="fa-solid fa-circle-check"></i> 8× pembelajaran (±60 menit/sesi untuk TK–SD)</li>
-          <li><i class="fa-solid fa-circle-check"></i> Materi pembelajaran &amp; pendampingan tugas</li>
-          <li><i class="fa-solid fa-circle-check"></i> Evaluasi perkembangan &amp; konsultasi singkat via WhatsApp</li>
-        </ul>
-      </div>
-
-      <p class="price-note reveal" style="text-align:center; margin-top:26px;">
-        Pembayaran dilakukan di awal bulan. Harga private sudah memperhitungkan jarak. Butuh penyesuaian khusus?
-        <a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20konsultasi%20paket" target="_blank" rel="noopener" style="color:var(--gold); font-weight:700;">Hubungi kami</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- ================= KATALOG BUKU ================= -->
-  <!-- Seksi ini disembunyikan sampai admin menambahkan buku (renderer yang menghilangkannya) -->
-  <section class="section book-section page-view is-hidden" id="buku" data-page="buku">
-    <div class="container">
-      <!-- Banner hero + katalog & daftar pustaka buku (dikelola admin) -->
-      <div id="book-catalog-wrap" style="display:none;">
-        <!-- Banner hero portal perbukuan (sekaligus judul seksi) -->
-        <div class="bk-hero reveal">
-          <div class="bk-hero-art" aria-hidden="true">
-            <span class="bk-hero-book b1"><i class="fa-solid fa-book"></i></span>
-            <span class="bk-hero-book b2"><i class="fa-solid fa-book-open"></i></span>
-            <span class="bk-hero-book b3"><i class="fa-solid fa-graduation-cap"></i></span>
-          </div>
-          <div class="bk-hero-body">
-            <span class="bk-hero-eyebrow"><i class="fa-solid fa-book-open-reader"></i> Perpustakaan Digital</span>
-            <h2 data-set="seksi_katalog_judul">Katalog Buku &amp; Modul Aksara</h2>
-            <p data-set="seksi_katalog_sub">Temukan bahan belajar resmi Aksara — modul latihan, buku ajar, dan karya ilmiah. Baca langsung di perpustakaan digital ini atau unduh berkasnya, gratis.</p>
-            <div class="bk-hero-stats">
-              <div class="bk-stat"><b id="bk-stat-buku">0</b><span>Koleksi Buku</span></div>
-              <div class="bk-stat"><b id="bk-stat-kategori">0</b><span>Kategori</span></div>
-              <div class="bk-stat"><b id="bk-stat-unduh">0</b><span>Siap Diunduh</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bilah pencarian & pengurutan -->
-        <div class="bk-toolbar reveal">
-          <label class="bk-search" for="book-q">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="book-q" placeholder="Cari judul, penulis, atau penerbit…" autocomplete="off" aria-label="Cari buku">
-          </label>
-          <div class="bk-tools">
-            <!-- Muncul begitu ada buku tersimpan (atau saat sedang menyaringnya). -->
-            <button class="bk-fav-toggle is-hidden" id="book-fav" type="button" aria-pressed="false" title="Tampilkan buku favorit">
-              <i class="fa-regular fa-star"></i> Favorit <b id="book-fav-count">0</b>
-            </button>
-            <div class="bk-sort">
-              <i class="fa-solid fa-arrow-down-wide-short"></i>
-              <select id="book-sort" aria-label="Urutkan buku">
-                <option value="urutan">Urutan default</option>
-                <option value="judul">Judul A–Z</option>
-                <option value="tahun">Tahun terbaru</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- Filter kategori (jenis buku) & jenjang -->
-        <div class="bk-filter">
-          <span class="bk-flabel">Kategori</span>
-          <div class="bk-chips" id="book-chips"></div>
-        </div>
-        <div class="bk-filter is-hidden" id="book-jenjang-wrap">
-          <span class="bk-flabel">Jenjang</span>
-          <div class="bk-chips" id="book-jenjang"></div>
-        </div>
-        <div class="bk-count" id="book-count"></div>
-
-        <!-- Grid katalog -->
-        <div class="bk-grid" id="book-catalog"></div>
-        <div class="bk-empty is-hidden" id="book-empty">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <p>Buku tidak ditemukan. Coba kata kunci atau kategori lain.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= DETAIL BUKU (KATALOG) ================= -->
-  <div class="bd" id="book-detail" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Detail buku">
-    <div class="bd-back" id="bd-back"></div>
-    <div class="bd-panel" role="document">
-      <button class="bd-close" id="bd-close" type="button" aria-label="Tutup detail"><i class="fa-solid fa-xmark"></i></button>
-      <div class="bd-head">
-        <div class="bd-cover" id="bd-cover"><i class="fa-solid fa-book-open"></i></div>
-        <div class="bd-headinfo">
-          <span class="bd-badge" id="bd-badge"></span>
-          <h3 id="bd-judul"></h3>
-          <div class="bd-actions" id="bd-actions"></div>
-        </div>
-      </div>
-      <div class="bd-body">
-        <dl class="bd-meta" id="bd-meta"></dl>
-        <p class="bd-desc" id="bd-desc"></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pesan singkat: favorit tersimpan, tautan disalin, dsb. -->
-  <div class="lp-toast" id="lp-toast" role="status" aria-live="polite"></div>
-
-  <!-- ================= PEMBACA BUKU (KATALOG) ================= -->
-  <div class="reader" id="book-reader" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Pembaca buku">
-    <div class="reader-back" id="reader-back"></div>
-    <div class="reader-panel" id="reader-panel" role="document">
-      <!-- 1. Bilah atas: kembali, identitas buku, aksi -->
-      <header class="rd-top">
-        <button class="rd-kembali" id="reader-close" type="button"><i class="fa-solid fa-arrow-left"></i> <span>Kembali ke Katalog</span></button>
-        <div class="rd-identitas">
-          <h3 id="reader-judul">Buku</h3>
-          <p class="rd-oleh">Oleh <b id="reader-penulis">Aksara Learning Center</b></p>
-        </div>
-        <div class="rd-aksi" id="reader-actions"></div>
-      </header>
-
-      <!-- 2. Kontrol pembaca: penghitung halaman, ukuran tulisan, daftar isi -->
-      <div class="rd-kontrol">
-        <span class="rd-count" id="reader-count">Halaman 1 dari 1</span>
-        <div class="rd-tools">
-          <button class="rd-ikon" id="reader-kecil" type="button" aria-label="Perkecil ukuran tulisan"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-          <button class="rd-ikon" id="reader-besar" type="button" aria-label="Perbesar ukuran tulisan"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-          <button class="rd-ikon" id="reader-daftar" type="button" aria-expanded="false" aria-controls="reader-toc"><i class="fa-solid fa-list-ul"></i> <span>Daftar Isi</span></button>
-        </div>
-      </div>
-
-      <!-- 3. Panggung buku -->
-      <!-- kelas "buku" = penanda gaya halaman buku bersama (src/styles/buku.css),
-           dipakai juga oleh pembaca di panel admin. -->
-      <div class="reader-body buku" id="reader-body">
-        <div class="book-spread" id="reader-spread">
-          <div class="book-inner" id="reader-inner">
-            <div class="sp-base">
-              <div class="base-page left endpaper"><span class="ep-mark">AKSARA • LEARNING CENTER</span></div>
-              <div class="base-page right"></div>
-            </div>
-            <div class="sp-spine"></div>
-            <div class="sp-leaves" id="reader-leaves"></div>
-          </div>
-          <button class="rd-panah kiri" id="reader-prev" type="button" aria-label="Halaman sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
-          <button class="rd-panah kanan" id="reader-next" type="button" aria-label="Halaman berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-        <p class="rd-petunjuk"><i class="fa-regular fa-hand-pointer"></i> Klik halaman atau gunakan tombol panah untuk membalik. Tekan <b>Esc</b> untuk menutup.</p>
-
-        <!-- 4. Panel Daftar Isi -->
-        <div class="toc-panel" id="reader-toc" aria-hidden="true">
-          <div class="toc-head">
-            <b><i class="fa-solid fa-list-ul"></i> Daftar Isi</b>
-            <button class="toc-tutup" id="reader-toc-tutup" type="button" aria-label="Tutup daftar isi"><i class="fa-solid fa-xmark"></i></button>
-          </div>
-          <ol class="toc-list" id="reader-toc-list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= LAYANAN & FASILITAS ================= -->
-  <section class="section page-view active" data-page="home" id="layanan">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Layanan &amp; Fasilitas</div>
-        <h2 data-set="seksi_layanan_judul">Belajar dengan Cara Paling Nyaman</h2>
-        <p data-set="seksi_layanan_sub">Online dari rumah atau privat datang ke rumah — keduanya dengan pendampingan yang sama seriusnya.</p>
-      </div>
-      <div class="sv-grid" id="sv-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= ALUR BELAJAR ================= -->
-  <section class="section alt page-view active" data-page="home" id="alur">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Alur Belajar</div>
-        <h2 data-set="seksi_alur_judul">Empat Langkah Sederhana</h2>
-        <p data-set="seksi_alur_sub">Dari konsultasi pertama sampai laporan perkembangan — prosesnya jelas dan transparan.</p>
-      </div>
-      <div class="step-grid" id="step-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= JENJANG ================= -->
-  <section class="section page-view active" data-page="home" id="jenjang">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Jenjang yang Dilayani</div>
-        <h2 data-set="seksi_jenjang_judul">Dari Calistung Hingga Skripsi</h2>
-        <p data-set="seksi_jenjang_sub">Satu pusat belajar untuk seluruh tahap pendidikan, dengan pendekatan yang berbeda di setiap jenjang.</p>
-      </div>
-      <div class="level-grid" id="level-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= GALERI KEGIATAN ================= -->
-  <section class="section alt page-view active" data-page="home" id="galeri">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Galeri Kegiatan</div>
-        <h2 data-set="seksi_galeri_judul">Momen Belajar di Aksara</h2>
-        <p data-set="seksi_galeri_sub">Klik foto untuk melihat ukuran penuh — gunakan tombol panah atau tombol ← → pada keyboard.</p>
-      </div>
-      <div class="gal-grid reveal" id="gal-grid">
-        <figure class="gal-item wide" data-cap="Suasana kelas Aksara Kids — belajar sambil bermain">
-          <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&amp;fit=crop&amp;w=1200&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&amp;fit=crop&amp;w=600&amp;q=70 600w,
-                       https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&amp;fit=crop&amp;w=1200&amp;q=75 1200w"
-               sizes="(max-width: 960px) 100vw, 50vw" width="1200" height="800" loading="lazy"
-               alt="Suasana kelas Aksara Kids">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Suasana kelas Aksara Kids — belajar sambil bermain</figcaption>
-        </figure>
-        <figure class="gal-item" data-cap="Pendampingan privat 1-on-1 bersama tutor">
-          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&amp;fit=crop&amp;w=800&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&amp;fit=crop&amp;w=400&amp;q=70 400w,
-                       https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&amp;fit=crop&amp;w=800&amp;q=75 800w"
-               sizes="(max-width: 960px) 50vw, 25vw" width="800" height="533" loading="lazy"
-               alt="Pendampingan privat satu lawan satu">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Pendampingan privat 1-on-1</figcaption>
-        </figure>
-        <figure class="gal-item" data-cap="Diskusi kelompok kecil yang tetap terpantau">
-          <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&amp;fit=crop&amp;w=800&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&amp;fit=crop&amp;w=400&amp;q=70 400w,
-                       https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&amp;fit=crop&amp;w=800&amp;q=75 800w"
-               sizes="(max-width: 960px) 50vw, 25vw" width="800" height="533" loading="lazy"
-               alt="Diskusi kelompok kecil">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Diskusi kelompok kecil</figcaption>
-        </figure>
-        <figure class="gal-item wide" data-cap="Latihan calistung bertahap untuk jenjang TK–SD">
-          <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&amp;fit=crop&amp;w=1200&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&amp;fit=crop&amp;w=600&amp;q=70 600w,
-                       https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&amp;fit=crop&amp;w=1200&amp;q=75 1200w"
-               sizes="(max-width: 960px) 100vw, 50vw" width="1200" height="800" loading="lazy"
-               alt="Latihan calistung anak">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Latihan calistung bertahap</figcaption>
-        </figure>
-        <figure class="gal-item" data-cap="Kelas online interaktif dengan papan tulis digital">
-          <img src="https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&amp;fit=crop&amp;w=800&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&amp;fit=crop&amp;w=400&amp;q=70 400w,
-                       https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&amp;fit=crop&amp;w=800&amp;q=75 800w"
-               sizes="(max-width: 960px) 50vw, 25vw" width="800" height="533" loading="lazy"
-               alt="Kelas online interaktif">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Kelas online interaktif</figcaption>
-        </figure>
-        <figure class="gal-item" data-cap="Pendampingan penulisan &amp; tugas akhir mahasiswa">
-          <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&amp;fit=crop&amp;w=800&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&amp;fit=crop&amp;w=400&amp;q=70 400w,
-                       https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&amp;fit=crop&amp;w=800&amp;q=75 800w"
-               sizes="(max-width: 960px) 50vw, 25vw" width="800" height="533" loading="lazy"
-               alt="Pendampingan penulisan tugas akhir">
-          <span class="gal-zoom"><i class="fa-solid fa-expand"></i></span>
-          <figcaption>Pendampingan tugas akhir</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= LOGO MITRA ================= -->
-  <!-- Ganti isi tiap .pt-logo dengan logo mitra asli bila tersedia, contoh:
-       <div class="pt-logo"><img src="logo-sekolah.png" alt="Nama Mitra" style="max-width:100%; max-height:56px;"></div> -->
-  <section class="partners page-view active" data-page="home" id="mitra">
-    <div class="container">
-      <div class="pt-head reveal" data-set="seksi_mitra_judul">Dipercaya Sekolah, Kampus &amp; Komunitas Mitra</div>
-      <div class="pt-grid reveal" id="pt-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= PAKET POPULER ================= -->
-  <section class="section page-view active" data-page="home" id="paket-ringkas">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Paket Populer</div>
-        <h2 data-set="seksi_paket_judul">Tiga Pilihan Paket Bulanan</h2>
-        <p data-set="seksi_paket_sub">Harga sudah dalam bentuk paket bulanan — bukan per pertemuan. Rincian lengkap per jenjang ada di halaman Harga.</p>
-      </div>
-      <div class="plan-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= TESTIMONIALS ================= -->
-  <section class="section alt page-view active" data-page="home">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Testimoni</div>
-        <h2 data-set="seksi_testimoni_judul">Kata Mereka Tentang Aksara</h2>
-      </div>
-      <div class="testi-grid" id="testi-grid"></div>
-    </div>
-  </section>
-
-  <!-- ================= BERITA (PRATINJAU DI BERANDA) ================= -->
-  <section class="section page-view active is-hidden" data-page="home" id="berita-preview-wrap">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Kabar Terbaru</div>
-        <h2 data-set="seksi_berita_judul">Berita &amp; Kegiatan Terbaru</h2>
-      </div>
-      <div class="news-grid" id="news-preview"></div>
-      <p style="text-align:center; margin-top:30px;"><button class="btn btn-outline" data-nav="berita">Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i></button></p>
-    </div>
-  </section>
-
-  <!-- ================= FAQ ================= -->
-  <section class="section alt page-view active" data-page="home" id="faq">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Pertanyaan Umum</div>
-        <h2 data-set="seksi_faq_judul">Hal yang Sering Ditanyakan</h2>
-        <p data-set="seksi_faq_sub">Belum menemukan jawabannya? Hubungi kami via WhatsApp — kami balas di jam kerja.</p>
-      </div>
-      <div class="faq-list" id="faq-list"></div>
-    </div>
-  </section>
-
-  <!-- ================= CTA BAND ================= -->
-  <section class="section page-view active" data-page="home">
-    <div class="container">
-      <div class="cta-band reveal">
-        <div>
-          <h2 data-set="cta_judul">Belum yakin mulai dari program mana?</h2>
-          <p data-set="cta_teks">Konsultasi gratis 15 menit — kami bantu menentukan program, jenjang, dan paket yang paling sesuai dengan kebutuhan belajar Anda.</p>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a class="btn btn-gold" href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20konsultasi%20program" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Konsultasi WhatsApp</a>
-          <a class="btn btn-outline" href="#daftar" data-nav="daftar">Isi Form Pendaftaran</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= BERITA (HALAMAN) ================= -->
-  <section class="section page-view" id="berita" data-page="berita">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Berita &amp; Artikel</div>
-        <h2 data-set="seksi_berita_page_judul">Kabar dari Aksara Learning Center</h2>
-        <p data-set="seksi_berita_page_sub">Informasi kegiatan, tips belajar, dan pengumuman terbaru.</p>
-      </div>
-      <div class="news-grid" id="news-list"></div>
-    </div>
-  </section>
-
-  <!-- ================= PENDAFTARAN ================= -->
-  <section class="section alt page-view" id="daftar" data-page="daftar">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow">Pendaftaran</div>
-        <h2 data-set="seksi_daftar_judul">Daftarkan Putra-Putri Anda</h2>
-      </div>
-      <div class="reg-grid">
-        <div class="reg-info reveal">
-          <h3>Prosesnya Mudah, 3 Langkah</h3>
-          <p>Isi form pendaftaran di samping, tim kami akan menghubungi Anda untuk jadwal kelas coba &amp; penempatan kelas yang sesuai.</p>
-          <ul class="reg-steps">
-            <li><span class="step-num">1</span><span>Isi form pendaftaran online</span></li>
-            <li><span class="step-num">2</span><span>Tim kami konfirmasi via email (1×24 jam)</span></li>
-            <li><span class="step-num">3</span><span>Kelas coba &amp; aktivasi rekening tabungan belajar</span></li>
-          </ul>
-        </div>
-        <div class="reg-card reveal">
-          <h3>📝 Form Pendaftaran Murid Baru</h3>
-          <div class="form-msg" id="reg-msg"></div>
-          <form id="reg-form" onsubmit="submitRegistration(event)">
-            <div class="form-row">
-              <div class="form-group">
-                <label>Nama Calon Murid <span class="req">*</span></label>
-                <input class="input" type="text" id="reg-nama" required maxlength="60" placeholder="Nama lengkap anak">
-              </div>
-              <div class="form-group">
-                <label>Tanggal Lahir</label>
-                <input class="input" type="date" id="reg-lahir">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Program <span class="req">*</span></label>
-                <select class="input" id="reg-program" required>
-                  <option value="">-- Pilih Program --</option>
-                  <option value="Aksara Kids (TK-SD)">Aksara Kids (TK-SD)</option>
-                  <option value="Aksara School (SD-SMA)">Aksara School (SD-SMA)</option>
-                  <option value="Aksara Academic (Mahasiswa)">Aksara Academic (Mahasiswa)</option>
-                  <option value="Aksara Writing">Aksara Writing</option>
-                  <option value="Aksara Final Project">Aksara Final Project</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Nama Orang Tua</label>
-                <input class="input" type="text" id="reg-ortu" maxlength="60" placeholder="Nama ayah/ibu">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>No HP / WhatsApp <span class="req">*</span></label>
-                <input class="input" type="tel" id="reg-hp" required maxlength="16" placeholder="08xxxxxxxxxx">
-              </div>
-              <div class="form-group">
-                <label>Email <span class="req">*</span></label>
-                <input class="input" type="email" id="reg-email" required placeholder="email@contoh.com">
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Catatan (opsional)</label>
-              <textarea class="input" id="reg-catatan" placeholder="Contoh: ingin kelas coba hari Sabtu"></textarea>
-            </div>
-            <button type="submit" class="btn btn-navy btn-block" id="reg-btn">📨 Kirim Pendaftaran</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CTA ================= -->
-  <section class="cta page-view" data-page="daftar">
-    <div class="cta-blob b1"></div>
-    <div class="cta-blob b2"></div>
-    <div class="cta-inner reveal">
-      <h2>"Your learning journey starts here."</h2>
-      <p>Jangan biarkan kesulitan belajar menghambat potensi Anda. Tim ahli Aksara siap mendampingi Anda mencapai target akademik.</p>
-      <button class="btn btn-gold" data-nav="daftar">
-        Daftar Sekarang <i class="fa-solid fa-arrow-right"></i>
-      </button>
-      <div class="contact-badges">
-        <a class="contact-badge" href="https://wa.me/6281280169806" target="_blank" rel="noopener">
-          <i class="fa-brands fa-whatsapp"></i> <span data-set="telepon">0812-8016-9806</span>
-        </a>
-        <a class="contact-badge" href="https://www.instagram.com/aksaracenter.id" target="_blank" rel="noopener">
-          <i class="fa-brands fa-instagram"></i> @askaracenter.id
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a class="logo" href="#home" data-nav="home">
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 75 Q 35 65 50 75 Q 65 65 80 75 L 85 80 Q 65 70 50 82 Q 35 70 15 80 Z" fill="#102B4E"/>
-              <path d="M25 68 Q 38 60 50 68 Q 62 60 75 68 L 80 73 Q 62 65 50 75 Q 38 65 20 73 Z" fill="#1A4073"/>
-              <path d="M50 15 L30 65 L40 65 L50 40 L60 65 L70 65 Z" fill="#102B4E"/>
-              <path d="M35 45 Q 50 25 65 50 Q 55 40 45 45 Z" fill="#B8934A"/>
-              <path d="M50 8 L52 14 L58 14 L53 18 L55 24 L50 20 L45 24 L47 18 L42 14 L48 14 Z" fill="#B8934A"/>
-            </svg>
-            <span class="logo-title" style="font-size:1.08rem;">AKSARA</span>
-          </a>
-          <p class="footer-desc" data-set="footer_tagline">Pusat pembelajaran dan akademik terpadu yang menemani langkah sukses pendidikan Anda dari usia dini hingga perguruan tinggi.</p>
-          <div class="socials">
-            <a class="social" href="https://www.instagram.com/aksaracenter.id" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a class="social" href="https://wa.me/6281280169806" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-          </div>
-        </div>
-
-        <div>
-          <h4>Tautan Cepat</h4>
-          <ul>
-            <li><a href="#home" data-nav="home">Beranda</a></li>
-            <li><a href="#program" data-nav="program">Program</a></li>
-            <li><a href="#kurikulum" data-nav="kurikulum">Kurikulum</a></li>
-            <li><a href="#harga" data-nav="harga">Harga &amp; Paket</a></li>
-            <li><a href="#buku" data-nav="buku">Perpustakaan</a></li>
-            <li><a href="#berita" data-nav="berita">Berita</a></li>
-            <li><a href="sites/" rel="noopener">Masuk Sistem</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Program Kami</h4>
-          <ul>
-            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Kids" target="_blank" rel="noopener">Aksara Kids (TK-SD)</a></li>
-            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20School" target="_blank" rel="noopener">Aksara School (SD-SMA)</a></li>
-            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20info%20tentang%20Aksara%20Academic" target="_blank" rel="noopener">Aksara Academic (Mahasiswa)</a></li>
-            <li><a href="https://wa.me/6281280169806?text=Halo%20Aksara,%20saya%20ingin%20konsultasi%20skripsi" target="_blank" rel="noopener">Konsultasi Skripsi/Tugas Akhir</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Hubungi Kami</h4>
-          <ul class="footer-contact">
-            <li><i class="fa-solid fa-phone"></i><a data-set="telepon" href="tel:6281280169806">0812-8016-9806</a></li>
-            <li><i class="fa-brands fa-instagram"></i><span>@askaracenter.id</span></li>
-            <li><i class="fa-solid fa-clock"></i><span data-set="jam_operasional">Senin - Sabtu<br>08:00 - 17:00 WIB</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="copyright">
-        &copy; <span id="year">2026</span> Aksara Learning Center.
-      </div>
-    </div>
-  </footer>
-
-  <!-- ================= CHATBOT AKSARA ================= -->
-  <!-- Muncul hanya bila admin mengaktifkan chatbot & kunci API sudah disimpan        di server. Pesan dikirim ke backend (POST /public/chat) — kunci API tidak pernah
-       ada di halaman ini. -->
-  <div id="chat" hidden>
-    <section class="chat-panel" id="chat-panel" role="dialog" aria-label="Asisten Aksara" hidden>
-      <header class="chat-head">
-        <div class="chat-id">
-          <span class="chat-avatar"><i class="fa-solid fa-graduation-cap"></i></span>
-          <span>
-            <b id="chat-nama">Tanya Aksara</b>
-            <small><span class="chat-online" aria-hidden="true"></span><span id="chat-status">Online — balasan otomatis</span></small>
-          </span>
-        </div>
-        <div class="chat-aksi">
-          <button class="chat-x" id="chat-x" type="button" aria-label="Tutup chat"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-      </header>
-      <div class="chat-body" id="chat-body" aria-live="polite"></div>
-      <div class="chat-saran" id="chat-saran"></div>
-      <form class="chat-form" id="chat-form" autocomplete="off">
-        <textarea id="chat-input" rows="1" placeholder="Tulis pertanyaan Anda…" aria-label="Tulis pesan"></textarea>
-        <button type="submit" id="chat-kirim" aria-label="Kirim pesan"><i class="fa-solid fa-paper-plane"></i></button>
-      </form>
-      <p class="chat-note" id="chat-note"></p>
-    </section>
-
-    <button class="chat-fab" id="chat-fab" type="button" aria-expanded="false" aria-controls="chat-panel">
-      <i class="fa-solid fa-comments"></i> <span id="chat-fab-label">Tanya Aksara</span>
-      <span class="chat-dot" aria-hidden="true"></span>
-    </button>
-  </div>
-
-  <!-- ================= LIGHTBOX GALERI ================= -->
-  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Galeri foto kegiatan">
-    <button class="lb-btn lb-x" id="lb-x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
-    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Foto sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
-    <button class="lb-btn lb-next" id="lb-next" aria-label="Foto berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
-    <img id="lb-img" src="" alt="Foto kegiatan Aksara Learning Center">
-    <div class="lb-cap" id="lb-cap"></div>
-    <div class="lb-ket" id="lb-ket" style="display:none"></div>
-  </div>
-
-  <script type="module" src="./src/js/landing/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html  lang="en"><head><title data-rh="true"></title><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style id="expo-reset">#root,body,html{height:100%}body{overflow:hidden}#root{display:flex}</style><style id="react-native-stylesheet">[stylesheet-group="0"]{}
+body{margin:0;}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+input::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-webkit-search-results-button,input::-webkit-search-results-decoration{display:none;}
+[stylesheet-group="1"]{}
+.css-11aywtz{-moz-appearance:textfield;-webkit-appearance:none;background-color:rgba(0,0,0,0.00);border-bottom-left-radius:0px;border-bottom-right-radius:0px;border-top-left-radius:0px;border-top-right-radius:0px;border:0 solid black;box-sizing:border-box;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0px;padding:0px;resize:none;}
+.css-146c3p1{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:rgba(0,0,0,1.00);display:inline;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;list-style:none;margin:0px;padding:0px;position:relative;text-align:start;text-decoration:none;white-space:pre-wrap;word-wrap:break-word;}
+.css-175oi2r{align-items:stretch;background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;display:flex;flex-basis:auto;flex-direction:column;flex-shrink:0;list-style:none;margin:0px;min-height:0px;min-width:0px;padding:0px;position:relative;text-decoration:none;z-index:0;}
+.css-1jxf684{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:inherit;display:inline;font:inherit;list-style:none;margin:0px;padding:0px;position:relative;text-align:inherit;text-decoration:none;white-space:inherit;word-wrap:break-word;}
+.css-9pa8cd{bottom:0px;height:100%;left:0px;opacity:0;position:absolute;right:0px;top:0px;width:100%;z-index:-1;}
+[stylesheet-group="2"]{}
+.r-11mg6pl{border-bottom-color:rgba(255,255,255,1.00);border-left-color:rgba(255,255,255,1.00);border-right-color:rgba(255,255,255,1.00);border-top-color:rgba(255,255,255,1.00);}
+.r-13awgt0{flex:1;}
+.r-1awa8pu{border-bottom-color:rgba(101,119,134,1.00);border-left-color:rgba(101,119,134,1.00);border-right-color:rgba(101,119,134,1.00);border-top-color:rgba(101,119,134,1.00);}
+.r-1bq2mok{margin:3px;}
+.r-1d4xg89{border-bottom-color:rgba(170,184,194,1.00);border-left-color:rgba(170,184,194,1.00);border-right-color:rgba(170,184,194,1.00);border-top-color:rgba(170,184,194,1.00);}
+.r-1dzdj1l{border-bottom-left-radius:10px;border-bottom-right-radius:10px;border-top-left-radius:10px;border-top-right-radius:10px;}
+.r-1f0042m{border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px;}
+.r-1j16mh1{border-bottom-left-radius:100%;border-bottom-right-radius:100%;border-top-left-radius:100%;border-top-right-radius:100%;}
+.r-1jkafct{border-bottom-left-radius:2px;border-bottom-right-radius:2px;border-top-left-radius:2px;border-top-right-radius:2px;}
+.r-1jyn79y{border-bottom-color:rgba(0,150,136,1.00);border-left-color:rgba(0,150,136,1.00);border-right-color:rgba(0,150,136,1.00);border-top-color:rgba(0,150,136,1.00);}
+.r-1phboty{border-bottom-style:solid;border-left-style:solid;border-right-style:solid;border-top-style:solid;}
+.r-1q9bdsx{border-bottom-left-radius:12px;border-bottom-right-radius:12px;border-top-left-radius:12px;border-top-right-radius:12px;}
+.r-1rvyss1{border-bottom-color:rgba(255,255,255,0.20);border-left-color:rgba(255,255,255,0.20);border-right-color:rgba(255,255,255,0.20);border-top-color:rgba(255,255,255,0.20);}
+.r-1sp51qo{padding:10px;}
+.r-1udh08x{overflow-x:hidden;overflow-y:hidden;}
+.r-1uu6nss{padding:5px;}
+.r-1xfd6ze{border-bottom-left-radius:8px;border-bottom-right-radius:8px;border-top-left-radius:8px;border-top-right-radius:8px;}
+.r-4a18lf{border-bottom-color:rgba(255,0,0,1.00);border-left-color:rgba(255,0,0,1.00);border-right-color:rgba(255,0,0,1.00);border-top-color:rgba(255,0,0,1.00);}
+.r-60ke3l{border-bottom-color:rgba(0,128,0,1.00);border-left-color:rgba(0,128,0,1.00);border-right-color:rgba(0,128,0,1.00);border-top-color:rgba(0,128,0,1.00);}
+.r-6t2glc{border-bottom-left-radius:40px;border-bottom-right-radius:40px;border-top-left-radius:40px;border-top-right-radius:40px;}
+.r-9x6qib{border-bottom-color:rgba(204,214,221,1.00);border-left-color:rgba(204,214,221,1.00);border-right-color:rgba(204,214,221,1.00);border-top-color:rgba(204,214,221,1.00);}
+.r-crgep1{margin:0px;}
+.r-d045u9{border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;}
+.r-d23pfw{padding:24px;}
+.r-edyy15{padding:8px;}
+.r-fx7oqy{border-bottom-color:rgba(0,0,255,1.00);border-left-color:rgba(0,0,255,1.00);border-right-color:rgba(0,0,255,1.00);border-top-color:rgba(0,0,255,1.00);}
+.r-krxsd3{display:-webkit-box;}
+.r-rs99b7{border-bottom-width:1px;border-left-width:1px;border-right-width:1px;border-top-width:1px;}
+.r-t60dpp{padding:0px;}
+.r-wg31gx{border-bottom-color:rgba(49,53,56,1.00);border-left-color:rgba(49,53,56,1.00);border-right-color:rgba(49,53,56,1.00);border-top-color:rgba(49,53,56,1.00);}
+.r-xoduu5{display:inline-flex;}
+.r-ywje51{margin:auto;}
+.r-z2wwpe{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;}
+[stylesheet-group="2.1"]{}
+.r-11f147o{padding-bottom:8px;padding-top:8px;}
+.r-17q4wm6{margin-left:5px;margin-right:5px;}
+.r-184id4b{margin-bottom:12px;margin-top:12px;}
+.r-1d7mnkm{padding-bottom:15px;padding-top:15px;}
+.r-1e084wi{padding-left:0px;padding-right:0px;}
+.r-1mmae3n{padding-bottom:12px;padding-top:12px;}
+.r-1ntr0p{padding-left:5px;padding-right:5px;}
+.r-1rsorjc{padding-left:36px;padding-right:36px;}
+.r-1yd117h{padding-bottom:7px;padding-top:7px;}
+.r-3o4zer{padding-left:12px;padding-right:12px;}
+.r-cxgwc0{padding-left:24px;padding-right:24px;}
+.r-f8sm7e{margin-left:auto;margin-right:auto;}
+.r-is05cd{padding-left:8px;padding-right:8px;}
+.r-jdiy1a{margin-left:11px;margin-right:11px;}
+.r-jusfrs{margin-left:12px;margin-right:12px;}
+.r-n5f61p{margin-bottom:3px;margin-top:3px;}
+.r-n7gxbd{padding-left:4px;padding-right:4px;}
+.r-u9wvl5{padding-left:20px;padding-right:20px;}
+.r-ugi1tw{padding-left:5%;padding-right:5%;}
+.r-w7s2jr{padding-bottom:16px;padding-top:16px;}
+.r-ytbthy{padding-bottom:10px;padding-top:10px;}
+[stylesheet-group="2.2"]{}
+.r-10s2tm5{left:0%;}
+.r-16o8guy{right:100%;}
+.r-1a11zyx{margin-right:12px;}
+.r-1cwvpvk{margin-left:12px;}
+.r-1e97lx8{margin-right:3px;}
+.r-1euzeng{padding-left:24px;}
+.r-1g4tz6n{margin-right:-14.5px;}
+.r-1h31txp{padding-right:16px;}
+.r-1lhn9r{margin-left:-14.5px;}
+.r-1sqnqi2{margin-left:3px;}
+.r-1vl2501{padding-right:24px;}
+.r-9mo606{margin-right:10px;}
+.r-c59us2{left:-3px;}
+.r-dqe1q{right:0%;}
+.r-qb41rp{margin-right:5px;}
+.r-rci37q{left:100%;}
+.r-uhung1{margin-left:10px;}
+.r-vpmibe{right:-3px;}
+.r-w67my2{padding-left:16px;}
+.r-wizibn{margin-left:5px;}
+[stylesheet-group="3"]{}
+.r-105ug2t{pointer-events:auto!important;}
+.r-10ptun7{height:16px;}
+.r-10v3vxq{transform:scaleX(-1);}
+.r-10x49cs{font-size:10px;}
+.r-10xqauy{padding-top:env(safe-area-inset-top);}
+.r-11j9u27{visibility:hidden;}
+.r-11mpjr4{background-color:rgba(223,223,223,1.00);}
+.r-11udlyb{background-color:rgba(0,150,136,1.00);}
+.r-11v9fek{min-width:180px;}
+.r-11yh6sk{overflow-x:hidden;}
+.r-12f6czt{top:17px;}
+.r-12vffkv>*{pointer-events:auto;}
+.r-12vffkv{pointer-events:none!important;}
+.r-135wba7{line-height:24px;}
+.r-13aq9py{animation-name:r-1iq689l;}
+.r-13qz1uu{width:100%;}
+.r-13tjlyg{transition-duration:0.1s;}
+.r-1472mwg{height:24px;}
+.r-14gqq1x{margin-top:4px;}
+.r-14lw9ot{background-color:rgba(255,255,255,1.00);}
+.r-14sbq61{background-color:rgba(33,150,243,1.00);}
+.r-150rngu{-webkit-overflow-scrolling:touch;}
+.r-16y2uox{flex-grow:1;}
+.r-173mn98{align-self:flex-end;}
+.r-173mzie{transform:scaleY(-1);}
+.r-1777fci{justify-content:center;}
+.r-17bb2tj{animation-duration:0.75s;}
+.r-17leim2{background-repeat:repeat;}
+.r-17s6mgv{justify-content:flex-end;}
+.r-17tloay{opacity:0.6;}
+.r-17u3ijr{background-color:rgba(155,161,166,0.27);}
+.r-184en5c{z-index:1;}
+.r-18nhz7w{top:-3px;}
+.r-18u1ve8{color:rgba(255,255,255,0.40);}
+.r-18u37iz{flex-direction:row;}
+.r-19oahor{font-size:64px;}
+.r-19wmn03{width:20px;}
+.r-19z077z{touch-action:none;}
+.r-1a2p6p6{-webkit-text-decoration-style:solid;text-decoration-style:solid;}
+.r-1abnn5w{animation-play-state:paused;}
+.r-1acpoxo{width:36px;}
+.r-1aockid{width:40px;}
+.r-1awozwy{align-items:center;}
+.r-1ay1djp{animation-duration:1s;}
+.r-1b43r93{font-size:14px;}
+.r-1c6unfx{forced-color-adjust:none;}
+.r-1c85bru{width:270px;}
+.r-1d2f490{left:0px;}
+.r-1d5kdc7{flex-direction:column-reverse;}
+.r-1ddef8g{-webkit-text-decoration-line:underline;text-decoration-line:underline;}
+.r-1dernwh{height:70%;}
+.r-1ei5mc7{cursor:inherit;}
+.r-1enofrn{font-size:12px;}
+.r-1euycsn{flex-direction:row-reverse;}
+.r-1ewcgjf{box-shadow:0px 1px 3px rgba(0,0,0,0.5);}
+.r-1ff274t{text-align:right;}
+.r-1g80hic{opacity:0.8;}
+.r-1ge9hsw{max-width:960px;}
+.r-1h0z5md{justify-content:flex-start;}
+.r-1habvwh{align-items:flex-start;}
+.r-1i10wst{font-size:18px;}
+.r-1i6wzkk{-moz-transition-property:opacity;-webkit-transition-property:opacity;transition-property:opacity;}
+.r-1i71y14{gap:14px;}
+.r-1ielgck{animation-duration:300ms;}
+.r-1iln25a{word-wrap:normal;}
+.r-1inkyih{font-size:17px;}
+.r-1iusvr4{flex-basis:0px;}
+.r-1janqcz{width:16px;}
+.r-1jkjb{margin-left:8px;}
+.r-1kb76zh{margin-right:8px;}
+.r-1kihuf0{align-self:center;}
+.r-1ld3bg{top:-4px;}
+.r-1ldzwu0{animation-timing-function:linear;}
+.r-1loqt21{cursor:pointer;}
+.r-1mlwlqe{flex-basis:auto;}
+.r-1mrlafo{background-position:0;}
+.r-1muvv40{animation-iteration-count:infinite;}
+.r-1niwhzg{background-color:rgba(0,0,0,0.00);}
+.r-1nlw0im{bottom:8px;}
+.r-1no09lo{margin-top:28px;}
+.r-1nxhmzv{margin-bottom:28px;}
+.r-1ny4l3l{outline-style:none;}
+.r-1ocf4r9{scroll-snap-type:y mandatory;}
+.r-1onu96p{border-curve:continuous;}
+.r-1oszu61{align-items:stretch;}
+.r-1otgn73{touch-action:manipulation;}
+.r-1p0dtai{bottom:0px;}
+.r-1pi2tsx{height:100%;}
+.r-1pm8pkb{font-family:Courier;}
+.r-1qd0xha{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.r-1qulhi1{animation-name:r-1pzkwqh;}
+.r-1r4fvd0{color:rgba(82,169,255,1.00);}
+.r-1r74h94{left:8px;}
+.r-1r8g8re{height:36px;}
+.r-1rnoaur{overflow-y:auto;}
+.r-1ssbvtb{gap:12px;}
+.r-1sxrcry{background-size:auto;}
+.r-1udbk01{text-overflow:ellipsis;}
+.r-1ui5ee8{font-size:32px;}
+.r-1uypc71{animation-timing-function:ease-in;}
+.r-1vr29t4{font-weight:800;}
+.r-1wbh5a2{flex-shrink:1;}
+.r-1wtj0ep{justify-content:space-between;}
+.r-1wyyakw{z-index:-1;}
+.r-1xcajam{position:fixed;}
+.r-1xnzce8{-moz-user-select:text;-webkit-user-select:text;user-select:text;}
+.r-1xzupcd{width:13px;}
+.r-1yef0xd{animation-name:r-11cv4x;}
+.r-2eszeu::-webkit-scrollbar{display:none}
+.r-2eszeu{scrollbar-width:none;}
+.r-30o5oe{-moz-appearance:none;-ms-appearance:none;-webkit-appearance:none;appearance:none;}
+.r-356f0p{letter-spacing:0.35px;}
+.r-3mc0re{right:8px;}
+.r-3s2u2q{white-space:nowrap;}
+.r-417010{z-index:0;}
+.r-4gszlv{background-size:cover;}
+.r-4v7adb{height:5px;}
+.r-56yt86{box-shadow:0px 3px 3px rgba(0,0,0,0.33);}
+.r-5oul0u{margin-bottom:8px;}
+.r-60vfwk{min-width:1px;}
+.r-633pao{pointer-events:none!important;}
+.r-6dt33c{opacity:1;}
+.r-6gpygo{margin-bottom:12px;}
+.r-6taxm2:-ms-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-moz-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-webkit-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-726pan{width:31px;}
+.r-76blku{height:21px;}
+.r-7cikom{font-size:inherit;}
+.r-7q8q6z{cursor:default;}
+.r-8akbws{-webkit-box-orient:vertical;}
+.r-8ay8q1{letter-spacing:0.1px;}
+.r-97e31f{padding-bottom:env(safe-area-inset-bottom);}
+.r-adyw6z{font-size:20px;}
+.r-agouwx{transform:translateZ(0);}
+.r-ah5dr5>*{pointer-events:none;}
+.r-ah5dr5{pointer-events:auto!important;}
+.r-aruset{font-weight:200;}
+.r-bi4vy9{transform:translateY(100%);}
+.r-bt1l66{min-height:20px;}
+.r-buy8e9{overflow-y:hidden;}
+.r-bv2aro{padding-left:env(safe-area-inset-left);}
+.r-c68hjy{color:rgba(161,161,161,1.00);}
+.r-cpa5s6{scroll-snap-align:start;}
+.r-cqee49{color:rgba(0,0,0,1.00);}
+.r-dkge59{background-color:rgba(170,184,194,1.00);}
+.r-dnmrzs{max-width:100%;}
+.r-eafdt9{transition-duration:0.15s;}
+.r-ebwn4k{animation-name:r-q67da2;}
+.r-ehq7j7{background-size:contain;}
+.r-eqz5dr{flex-direction:column;}
+.r-eu3ka{height:40px;}
+.r-fdjqy7{text-align:left;}
+.r-g3mlsw{animation-name:r-t2lo5v;}
+.r-ghxds0{transform:translateY(0%);}
+.r-gtdqiz{position:-webkit-sticky;position:sticky;}
+.r-h0d30l{height:28px;}
+.r-hxflta{padding-right:env(safe-area-inset-right);}
+.r-icoktb{opacity:0.5;}
+.r-ipm5af{top:0px;}
+.r-jwli3a{color:rgba(255,255,255,1.00);}
+.r-k200y{align-self:flex-start;}
+.r-kemksi{background-color:rgba(0,0,0,1.00);}
+.r-kizejy{color:rgba(155,161,166,1.00);}
+.r-knv0ih{margin-top:8px;}
+.r-lltvgl{overflow-x:auto;}
+.r-lpb231{height:168px;}
+.r-lrsllp{width:24px;}
+.r-lrvibr{-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+.r-majxgm{font-weight:500;}
+.r-mfh4gg{scroll-snap-type:x mandatory;}
+.r-mhe3cw{z-index:10;}
+.r-mro3nb{background-color:rgba(21,23,24,1.00);}
+.r-n6v787{font-size:13px;}
+.r-nvplwv{animation-timing-function:ease-out;}
+.r-o4n3w5{width:23px;}
+.r-orgf3d{opacity:0;}
+.r-q4m81j{text-align:center;}
+.r-qfi6ny{top:30000px;}
+.r-qklmqi{border-bottom-width:1px;}
+.r-qn3fzs{padding-bottom:24px;}
+.r-rjixqe{line-height:20px;}
+.r-rs94m5{background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmVyc2lvbj0iMS4xIgogICB2aWV3Qm94PSIwIDAgMSAxIgogICBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWluWU1pbiBtZWV0Ij4KICA8cGF0aAogICAgIGQ9Ik0gMC4wNDAzODA1OSwwLjYyNjc3NjcgMC4xNDY0NDY2MSwwLjUyMDcxMDY4IDAuNDI5Mjg5MzIsMC44MDM1NTMzOSAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IE0gMC4yMTcxNTcyOSwwLjgwMzU1MzM5IDAuODUzNTUzMzksMC4xNjcxNTcyOSAwLjk1OTYxOTQxLDAuMjczMjIzMyAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IgogICAgIGlkPSJyZWN0Mzc4MCIKICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgo8L3N2Zz4K");}
+.r-sfbmgh{z-index:9999;}
+.r-so7y2g{line-height:64px;}
+.r-tsynxw{text-transform:uppercase;}
+.r-u6sd8q{background-repeat:no-repeat;}
+.r-u8s1d{position:absolute;}
+.r-u92y06{background-color:rgba(255,165,0,1.00);}
+.r-ubezar{font-size:16px;}
+.r-uho16t{font-size:34px;}
+.r-vacyoi{padding-bottom:64px;}
+.r-van48c{caret-color:transparent;}
+.r-vboj7i{top:-7px;}
+.r-vvn4in{background-position:center;}
+.r-vw2c0b{font-weight:bold;}
+.r-wfqgy4{transition-duration:100ms;}
+.r-ws9h79{left:4px;}
+.r-x3cy2q{background-size:100% 100%;}
+.r-xx3c9p{animation-name:r-imtty0;}
+.r-y7v2we{background-color:rgba(32,36,37,1.00);}
+.r-z80fyv{height:20px;}
+.r-zchlnj{right:0px;}
+.r-zz5t5d{font-size:28px;}
+@-webkit-keyframes r-11cv4x{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@-webkit-keyframes r-1iq689l{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@-webkit-keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@-webkit-keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@-webkit-keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@-webkit-keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}
+@keyframes r-11cv4x{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes r-1iq689l{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script></head><body><div id="root"><div class="css-175oi2r r-13awgt0"><!--$--><div style="position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;visibility:hidden"></div><div class="css-175oi2r r-13awgt0"><div class="css-175oi2r r-13awgt0 r-1p0dtai r-1d2f490 r-u8s1d r-zchlnj r-ipm5af" style="background-color:rgba(242,242,242,1.00);display:flex"><div class="css-175oi2r r-13awgt0"><div class="css-175oi2r r-13awgt0"><!--$--><div class="css-175oi2r" style="flex:1;background-color:rgba(247,245,240,1.00)"><div class="css-175oi2r r-150rngu r-eqz5dr r-16y2uox r-1wbh5a2 r-11yh6sk r-1rnoaur r-agouwx" style="flex:1"><div class="css-175oi2r"><div class="css-175oi2r" style="padding-left:16px;padding-right:16px;padding-top:16px;padding-bottom:16px;gap:12px;max-width:480px;width:100%;align-self:center"><div class="css-175oi2r" style="border-top-left-radius:20px;border-top-right-radius:20px;border-bottom-right-radius:20px;border-bottom-left-radius:20px;padding-left:16px;padding-right:16px;padding-top:16px;padding-bottom:16px;overflow-x:hidden;overflow-y:hidden;background-image:linear-gradient(135deg, rgba(234,88,12,1.00), rgba(194,65,12,1.00))"><div class="css-175oi2r" style="flex-direction:row;align-items:center;gap:12px"><div class="css-175oi2r" style="width:56px;height:56px;border-top-left-radius:28px;border-top-right-radius:28px;border-bottom-right-radius:28px;border-bottom-left-radius:28px;background-color:rgba(255,255,255,0.25);border-top-width:2px;border-right-width:2px;border-bottom-width:2px;border-left-width:2px;border-top-color:rgba(255,255,255,0.60);border-right-color:rgba(255,255,255,0.60);border-bottom-color:rgba(255,255,255,0.60);border-left-color:rgba(255,255,255,0.60);justify-content:center;align-items:center"><div dir="auto" class="css-146c3p1" style="font-size:24px;font-weight:bold;color:rgba(255,255,255,1.00)">A</div></div><div class="css-175oi2r" style="flex:1"><div dir="auto" class="css-146c3p1" style="font-size:18px;font-weight:bold;color:rgba(255,255,255,1.00)">Admin Aksara</div><div dir="auto" class="css-146c3p1" style="color:rgba(255,255,255,0.85)">Administrator<!-- --> · Panel Staf</div></div></div></div><div dir="auto" class="css-146c3p1" style="font-size:16px;font-weight:bold;color:rgba(138,123,92,1.00)">Ringkasan</div><div class="css-175oi2r" style="flex-direction:row;flex-wrap:wrap;gap:8px"><div class="css-175oi2r" style="flex-basis:48%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-left:14px;padding-right:14px;padding-top:14px;padding-bottom:14px;flex-direction:row;align-items:center;gap:12px"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(22,163,74,1.00), rgba(22,163,74,1.00))"><div dir="auto" class="css-146c3p1" style="color:rgba(255,255,255,1.00);font-weight:bold;font-size:18px">M</div></div><div class="css-175oi2r"><div dir="auto" class="css-146c3p1" style="font-size:18px;font-weight:bold">…</div><div dir="auto" class="css-146c3p1" style="color:rgba(107,114,128,1.00);font-size:14px">Murid aktif</div></div></div><div class="css-175oi2r" style="flex-basis:48%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-left:14px;padding-right:14px;padding-top:14px;padding-bottom:14px;flex-direction:row;align-items:center;gap:12px"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(37,99,235,1.00), rgba(37,99,235,1.00))"><div dir="auto" class="css-146c3p1" style="color:rgba(255,255,255,1.00);font-weight:bold;font-size:18px">K</div></div><div class="css-175oi2r"><div dir="auto" class="css-146c3p1" style="font-size:18px;font-weight:bold">…</div><div dir="auto" class="css-146c3p1" style="color:rgba(107,114,128,1.00);font-size:14px">Kelas</div></div></div><div class="css-175oi2r" style="flex-basis:48%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-left:14px;padding-right:14px;padding-top:14px;padding-bottom:14px;flex-direction:row;align-items:center;gap:12px"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(234,88,12,1.00), rgba(234,88,12,1.00))"><div dir="auto" class="css-146c3p1" style="color:rgba(255,255,255,1.00);font-weight:bold;font-size:18px">A</div></div><div class="css-175oi2r"><div dir="auto" class="css-146c3p1" style="font-size:18px;font-weight:bold">…</div><div dir="auto" class="css-146c3p1" style="color:rgba(107,114,128,1.00);font-size:14px">Absen hari ini</div></div></div><div class="css-175oi2r" style="flex-basis:48%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-left:14px;padding-right:14px;padding-top:14px;padding-bottom:14px;flex-direction:row;align-items:center;gap:12px"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(124,58,237,1.00), rgba(124,58,237,1.00))"><div dir="auto" class="css-146c3p1" style="color:rgba(255,255,255,1.00);font-weight:bold;font-size:18px">M</div></div><div class="css-175oi2r"><div dir="auto" class="css-146c3p1" style="font-size:18px;font-weight:bold">…</div><div dir="auto" class="css-146c3p1" style="color:rgba(107,114,128,1.00);font-size:14px">Menunggu</div></div></div></div><div dir="auto" class="css-146c3p1" style="font-size:16px;font-weight:bold;color:rgba(138,123,92,1.00)">Menu</div><div class="css-175oi2r" style="flex-direction:row;flex-wrap:wrap;gap:8px"><a href="./absensi" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(22,163,74,1.00), rgba(22,163,74,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">📝</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Absensi</div></a><a href="./bank-soal" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(37,99,235,1.00), rgba(37,99,235,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">📚</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Bank Soal</div></a><a href="./murid" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(234,88,12,1.00), rgba(234,88,12,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">🎒</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Murid</div></a><a href="./jadwal" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(124,58,237,1.00), rgba(124,58,237,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">🗓️</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Jadwal</div></a><a href="./users" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(14,165,233,1.00), rgba(14,165,233,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">👥</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Users</div></a><a href="./invite-ortu" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex-basis:31%;flex-grow:1;background-color:rgba(255,255,255,1.00);border-top-left-radius:18px;border-top-right-radius:18px;border-bottom-right-radius:18px;border-bottom-left-radius:18px;padding-top:14px;padding-bottom:14px;align-items:center;gap:8px;min-height:96px;justify-content:center"><div class="css-175oi2r" style="width:44px;height:44px;border-top-left-radius:12px;border-top-right-radius:12px;border-bottom-right-radius:12px;border-bottom-left-radius:12px;justify-content:center;align-items:center;opacity:0.92;background-image:linear-gradient(180deg, rgba(5,150,105,1.00), rgba(5,150,105,1.00))"><div dir="auto" class="css-146c3p1" style="font-size:20px">🔗</div></div><div dir="auto" class="css-146c3p1" style="font-size:14px;font-weight:600;text-align:center">Link Ortu</div></a></div><div dir="auto" class="css-146c3p1" style="font-size:16px;font-weight:bold;color:rgba(138,123,92,1.00)">Transaksi terbaru</div><div dir="auto" class="css-146c3p1" style="color:rgba(107,114,128,1.00)">Belum ada transaksi.</div></div></div></div><div class="css-175oi2r" style="flex-direction:row;background-color:rgba(255,255,255,1.00);border-top-width:1px;border-top-color:rgba(234,229,217,1.00);padding-top:8px;padding-bottom:20px"><a href="./" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex:1;align-items:center;gap:2px"><div dir="auto" class="css-146c3p1" style="font-size:20px">🏠</div><div dir="auto" class="css-146c3p1" style="font-size:11px;font-weight:bold;color:rgba(234,88,12,1.00)">Dasbor</div></a><a href="./absensi" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex:1;align-items:center;gap:2px"><div dir="auto" class="css-146c3p1" style="font-size:20px">📝</div><div dir="auto" class="css-146c3p1" style="font-size:11px;font-weight:normal;color:rgba(107,114,128,1.00)">Absensi</div></a><a href="./bank-soal" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex:1;align-items:center;gap:2px"><div dir="auto" class="css-146c3p1" style="font-size:20px">📚</div><div dir="auto" class="css-146c3p1" style="font-size:11px;font-weight:normal;color:rgba(107,114,128,1.00)">Soal</div></a><a href="./murid" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex:1;align-items:center;gap:2px"><div dir="auto" class="css-146c3p1" style="font-size:20px">🎒</div><div dir="auto" class="css-146c3p1" style="font-size:11px;font-weight:normal;color:rgba(107,114,128,1.00)">Murid</div></a><a href="./users" role="link" tabindex="0" class="css-175oi2r r-1loqt21 r-1otgn73" style="flex:1;align-items:center;gap:2px"><div dir="auto" class="css-146c3p1" style="font-size:20px">👥</div><div dir="auto" class="css-146c3p1" style="font-size:11px;font-weight:normal;color:rgba(107,114,128,1.00)">Users</div></a></div></div><!--/$--></div></div></div></div><!--/$--></div></div><script src="./_expo/static/js/web/entry-ce2c327fcf5c5d8d7986c931c5a5c122.js" defer></script>
+</body></html>
